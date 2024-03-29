@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\CategoryController;
+use App\Http\Controllers\API\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,8 +22,9 @@ Route::post('/login',[UserController::class,'login']);
 Route::post('/register',[UserController::class,'register']);
 
 Route::group(['middleware'=>['auth:sanctum']],function(){
-
+    
 Route::resource('categories',CategoryController::class);
+Route::resource('products',ProductController::class);
   
 });
 

@@ -20,8 +20,20 @@ class Product extends Model
 
     public function category()
     {
-        return $this->belongsToMany(Category::class);
+        return $this->belongsTo(Category::class);
     }
+
+    public function cartItems()
+    {
+        return $this->hasMany(CartItem::class);
+    }
+
+    public function orderitems()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
+
+    
 
 
 }

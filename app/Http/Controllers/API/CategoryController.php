@@ -38,12 +38,21 @@ class CategoryController extends Controller
     {
         $category =Category::create($request->all());
 
+        if ($category) {
         return response()->json([
             'status'=>true,
             'message'=>"Category Created Successufly",
             'data'=>$category
             
         ]);
+        }
+        else
+        {
+        return response()->json([
+            'status'=>false,
+            'message'=>"Failed to Create Category"       
+        ]);
+        }
     }
 
     /**
@@ -84,11 +93,12 @@ class CategoryController extends Controller
     public function update(CategoryRequest $request, string $id)
     {
         $category = Category::find($id);
-        if($category){
-            // Update the category
-            $category->update($request->all());
 
-            // Check if the update was successful
+        if($category){
+
+            $validatedData = $request->validated();
+            $category->fill($validatedData)->save();
+            
             if ($category->wasChanged()) {
                 return response()->json([
                     'status' => true,
@@ -103,10 +113,13 @@ class CategoryController extends Controller
             }
         }
 
-        return response()->json([
-            'status' => false,
-            'message' => "Category Not Found"
-        ]);
+        else{
+            return response()->json([
+                'status' => false,
+                'message' => "Category Not Found"
+            ]);
+        }
+
     }
 
     /**
@@ -114,26 +127,29 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-                $category = Category::find($id);
-                
-                if ($category) {
-                    $deleted = $category->delete();
-                    if ($deleted) {
-                        return response()->json([
-                            'status' => true,
-                            'message' => "Category Deleted Successfully",
-                        ]);
-                    } else {
-                        return response()->json([
-                            'status' => false,
-                            'message' => "Failed to delete the Category",
-                        ]);
-                    }
-                } else {
+            try {
+                $category = Category::findOrFail($id);
+
+                $relatedProducts = $category->products()->exists();
+
+                if ($relatedProducts) {
                     return response()->json([
                         'status' => false,
-                        'message' => "Category Not Found",
-                    ]);
+                        'message' => 'Cannot delete Category as it is referenced by one or more products.'
+                    ], 422);
                 }
+
+                $category->delete();
+
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Category Deleted Successfully',
+                ]);
+            } catch (\Exception $e) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Category Not Found',
+                ], 404);
+            }
     }
 }
