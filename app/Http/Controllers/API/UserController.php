@@ -1,53 +1,61 @@
 <?php
 
 namespace App\Http\Controllers\API;
+
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-    public function login (Request $request)
+    public function login(Request $request)
     {
-        $email = $request->get('email');
-        $password = $request->get('password');
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
 
-        if(Auth::attempt(compact('email','password'))){
-                $user = auth()->user();
-                $access_token =$user->createToken('authToken')->plainTextToken;
-                return response()->json([
-                    'status'=>true,
-                    'message'=>"User Authenticated Successfully",
-                    'token'=>$access_token
-                ]); 
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
         }
-        else{
-            return response()->json([
-                'status'=>false,
-                'message'=>"Email or Password incorrect"
-            ]); 
+
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+
+            if ($user->isAdmin) {
+                return redirect()->route('admin.home');
+            } else {
+                return redirect()->route('user.home');
+            }
+        } else {
+            return back()->withErrors(['message' => 'Invalid credentials']);
         }
     }
 
-    public function register (Request $request)
+    public function logout()
     {
-        $user = new User();
-        $user->name =$request->get('name');
-        $user->phone =$request->get('phone');
-        $user->email =$request->get('email');
-        $user->password =bcrypt($request->get('password'));
-        $user->save();
-
-        $access_token =$user->createToken('authToken')->plainTextToken;
-
-        return response()->json([
-            'status'=>true,
-            'message'=>"User Registered Successfully",
-            'token'=>$access_token
-        ]); 
+        Auth::logout();
+        return redirect()->route('user.home');
     }
 
-
+    public function register(UserRequest $request)
+    {
+        $user = User::create([
+            'name' => $request->input('name'),
+            'phone' => $request->input('phone'),
+            'email' => $request->input('email'),
+            'password' => Hash::make($request->input('password')),
+        ]);
+    
+        Auth::login($user);
+    
+        return redirect()->route('user.home');
+    }
 }
 

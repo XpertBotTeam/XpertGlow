@@ -29,10 +29,10 @@ class CreateUser extends Command
         $user = User::create([
             'name'=>'mohamad kassem',
             'email'=>'mohamadkassem@gmail.com',
-            'phone'=>'923127421',
+            'phone'=>'03123456',
             'password'=>bcrypt("12345678")
         ]);
 
-        dd($user);
+        
     }
 }
