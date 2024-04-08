@@ -183,7 +183,7 @@
     border-right: 1px solid var(--border_color);
 }
 
-.close_btn{
+.xpertglow_nav_2 .close_btn{
     position: absolute;
     top: 18px;
     right: 5px;
@@ -233,6 +233,54 @@
     font-size: 1rem;
     text-decoration: none;
     color: black;
+}
+
+.xpertglow_nav_3{
+    position: fixed;
+    height: 100%;
+    top: 0;
+    right: 0;
+    width: 0;
+    overflow-x: hidden;
+    padding-top: var(--nav_1_height);
+    transition: 0.5s;
+    background-color: var(--primary_color_background);
+    z-index: 1;
+    border-left: 1px solid var(--border_color);
+}
+
+.xpertglow_nav_3 .close_btn{
+    position: absolute;
+    top: 18px;
+    left: 5px;
+}
+
+.user_options_container{
+    width: 100%;
+    padding: 0 8px;
+}
+
+.user_option{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    width: 100%;
+    margin-bottom: 15px;
+    text-decoration: none;
+    color: black;
+}
+
+.user_option button{
+    width: 100%;
+    text-align: start;
+    height: 40px;
+    font-size: 1.3rem;
+    padding-left: 7px;
+    border: 1px solid var(--border_color);
+}   
+
+.user_option i{
+    margin-right: 8px;
 }
 
 @media screen and (max-width: 768px) {

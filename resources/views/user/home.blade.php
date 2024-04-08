@@ -8,23 +8,13 @@
 </head>
 <body>
 
-    @if(session()->has('error'))
-    <div class="alert alert-danger">
-        {{ session('error') }}
-    </div>
-    @endif
+    @extends('user.partials.header')
 
-    @auth
-    <p>Welcome, {{ auth()->user()->name }}</p>
-    <form method="POST" action="{{ route('logout') }}">
-        @csrf
-        <button type="submit" class="btn btn-primary">Logout</button>
-    </form>
+    @section('content')
 
-    @else
-        <a href="{{ route('register') }}" ><button>Register</button></a>
-        <a href="{{ route('login') }}" ><button>Login</button></a>
-    @endauth
+    <h1 style="margin-top: 80px">hello mk</h1>
+
+    @endsection
 
 </body>
 </html>

@@ -1,9 +1,17 @@
-function openNav() {
+function openCategoriesNav() {
     document.getElementById("xpertglow_nav_2").style.width = "250px";
 }
 
-function closeNav() {
+function closeCategoriesNav() {
     document.getElementById("xpertglow_nav_2").style.width = "0";
+}
+
+function openUserNav() {
+    document.getElementById("xpertglow_nav_3").style.width = "200px";
+}
+
+function closeUserNav(){
+    document.getElementById("xpertglow_nav_3").style.width = "0";
 }
 
 function toggleSubcategories(category) {
