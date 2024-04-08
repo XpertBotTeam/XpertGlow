@@ -15,12 +15,12 @@ class Product extends Model
         'description',
         'price',
         'quantity',
-        'category_id',
+        'subcategory_id',
     ];
 
-    public function category()
+    public function subcategory()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(SubCategory::class);
     }
 
     public function cartItems()
