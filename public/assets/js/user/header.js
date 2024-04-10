@@ -37,3 +37,45 @@ function showLoginOptions() {
         loginOptions.style.display = "block";
     }
 }
+
+$(document).ready(function() {
+    
+    $('#searchInput').on('keyup', function() {
+        var query = $(this).val().trim();
+        if (query.length > 0) {
+            $('.search_results').css('display', 'block');
+            $('#loader').show(); 
+            $.ajax({
+                url: '/ajax_search',
+                type: 'GET',
+                data: { query: query },
+                success: function(response) {
+                    displayResults(response);
+                },
+                error: function(xhr) {
+                    console.error('Error:', xhr.responseText);
+                },
+                complete: function() {
+                    $('#loader').hide(); 
+                }
+            });
+        } else {
+            $('#searchResults').empty();
+            $('.search_results').css('display', 'none');
+        }
+    });
+
+    function displayResults(products) {
+        var resultsList = $('#searchResults');
+        resultsList.empty();
+        if (products.length > 0) {
+            products.forEach(function(product) {
+                resultsList.append('<li><a href="/product/' + product.id + '">' + product.name + '</a></li>');
+            });
+        } else {
+            resultsList.append('<li>No results found</li>');
+        }
+    }
+});
+
+

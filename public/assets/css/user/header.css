@@ -47,6 +47,8 @@
     font-size: 1.4rem;
     letter-spacing: 2px;
     font-weight: bold;
+    color: black;
+    text-decoration: none;
 }
 
 .nav_mid {
@@ -54,43 +56,93 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
 }
 
-.search-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: transparent;
+.search_container {
     width: 80%;
 }
 
-.search-container input[type="text"] {
-    width: 75%; 
+.search_container form{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.search_container form input[type="text"] {
+    
     height: 50px;
     border: none;
     border: 1px solid var(--border_color);
     border-radius: 50px 0px 0px 50px; 
     padding-left: 15px; 
+    width: 75%;
   
 }
 
-.search-container input[type="text"]:focus {
+.search_container form input[type="text"]:focus {
     border: 2px solid black;
     outline: none;
   
 }
 
-.search-container input[type="submit"] {
-    width: 25%; 
+.search_container form input[type="submit"] {
+    
     height: 50px;
     background-color: black;
     color: white;
     border: none;
     border-radius: 0px 50px 50px 0px; 
+    width: 25%;
 }
 
-.search-container input[type="submit"]:hover {
+.search_container form input[type="submit"]:hover {
     background-color: var(--btn_hover_background_color);
+}
+
+.search_results{
+    display: none;
+    position: absolute;
+    top: 130%;
+    width: 100%; 
+    max-width: 70%; 
+    border: 1px solid var(--border_color);
+    background-color: var(--primary_color_background);
+    border-radius: 7px;
+    overflow: hidden;
+    padding: 8px;
+}
+
+.search_results .loader {
+    display: none;
+    width: 100%;
+    text-align: center;
+    margin: 7px 0;
+}
+
+.search_results .loader .fa-spinner {
+    animation: spin 1.2s linear infinite;
+    font-size: 25px;
+}
+
+.search_results ul {
+    list-style: none; 
+    padding: 0; 
+}
+
+.search_results li {
+    margin-top: 7px;
+    border-top: 1px solid var(--border_color);
+    border-bottom: 1px solid var(--border_color); 
+}
+
+.search_results a {
+    color: black; 
+    text-decoration: none; 
+    display: block; 
+    padding: 5px 10px; 
 }
 
 .nav_right {
@@ -294,4 +346,12 @@
     }
 }
 
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg); 
+    }
+}
 

@@ -8,7 +8,7 @@
     <title>@yield('title')</title>
 </head>
 <body>
-
+    
     <div class="xpertglow_nav_1">
             <div class="nav_left">
                 <div class="nav_left_list">
@@ -16,16 +16,28 @@
                         <i class="fa-solid fa-bars"></i>
                     </button>
                 </div>
-                <div class="nav_left_logo">
+                <a href="{{ route('user.home') }}" class="nav_left_logo">
                     XpertGlow
-                </div>
+                </a>
                 
             </div>
 
+            
             <div class="nav_mid">
-                <div class="search-container">
-                    <input type="text" placeholder="Search for Products">
-                    <input type="submit" value="Search">
+                <div class="search_container">
+                    <form action="{{ route('searchh') }}" method="GET">
+                        <input type="text" id="searchInput" name="query" required placeholder="Search for Products">
+                        <input type="submit" value="Search">
+                    </form>
+                </div>
+            
+                <div class="search_results">
+                    <ul id="searchResults">
+                    </ul>
+                    <div class="loader" id="loader">
+                        <i class="fa-solid fa-spinner"></i>
+                    </div>
+
                 </div>
              
             </div>
@@ -66,25 +78,20 @@
     <div id="xpertglow_nav_2" class="xpertglow_nav_2">
           
         <div class="close_btn"><button onclick="closeCategoriesNav()"><i class="fa-solid fa-xmark"></i></button></div>
+        
         <div class="categories_container">
+            @foreach($categories as $category)
             <div class="category" onclick="toggleSubcategories(this)">
-                <button>Makeup<i class="icon fa-solid fa-arrow-down"></i></button>
-                <a href="#" class="sub_category">issa</a>
-                <a href="#"  class="sub_category">mhmd</a>
-                <a href="#"  class="sub_category">hassan</a>
+                <button>{{ $category->name }}<i class="icon fa-solid fa-arrow-down"></i></button>
+                @foreach($category->subcategories as $subcategory)
+                    <a href="{{ route('subcategory', ['id' => $subcategory->id]) }}" class="sub_category">{{ $subcategory->name }}</a>
+                @endforeach
             </div>
-            <div class="category" onclick="toggleSubcategories(this)">
-                <button>Skin Care<i class="icon fa-solid fa-arrow-down"></i></button>
-                <a href="#"  class="sub_category">1</a>
-                <a href="#"  class="sub_category">2</a>
-                <a href="#"  class="sub_category">3</a>
-            </div>
+            @endforeach
         </div>
-
+        
     </div>
-
     @auth
-
     <div id="xpertglow_nav_3" class="xpertglow_nav_3">
         <div class="close_btn"><button onclick="closeUserNav()"><i class="fa-solid fa-xmark"></i></button></div>
         <div class="user_options_container">
@@ -102,10 +109,11 @@
             </form>
         </div>
     </div>
-    
+
     @endauth
 
     @yield('content')
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="{{ asset('assets/js/user/header.js') }}"></script>
 </body>
 </html>

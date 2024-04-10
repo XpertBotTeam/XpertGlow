@@ -28,7 +28,7 @@ class ProductRequest extends FormRequest
                 'description' => 'required|string',
                 'price' => 'required|numeric|min:0',
                 'quantity' => 'required|integer|min:0',
-                'category_id' => 'required|integer|exists:categories,id',
+                'sub_category_id' => 'required|integer|exists:sub_categories,id',
             ];
         } elseif ($this->isMethod('put') || $this->isMethod('patch')) {
             return [
@@ -37,7 +37,7 @@ class ProductRequest extends FormRequest
                 'description' => 'nullable|string',
                 'price' => 'nullable|numeric|min:0',
                 'quantity' => 'nullable|integer|min:0',
-                'category_id' => 'nullable|integer|exists:categories,id',
+                'sub_category_id' => 'nullable|integer|exists:sub_categories,id',
             ];
         }
     }
