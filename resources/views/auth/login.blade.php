@@ -19,14 +19,14 @@
                     <div class="form_item_i">
                         <i class="fa-solid fa-envelope"></i>
                     </div>
-                    <input id="email" type="email" name="email" placeholder="Email">
+                    <input id="email" type="email" name="email" placeholder="Email" required>
                 </div>
 
                 <div class="form_item">
                     <div class="form_item_i">
                         <i class="fa-solid fa-lock"></i>
                     </div>
-                    <input id="password" type="password" name="password" placeholder="Password">
+                    <input id="password" type="password" name="password" placeholder="Password" required>
                     <button class="show_password" type="button" onclick="ShowPassword()">
                         <i id="eyeIcon" class="fa-solid fa-eye"></i>
                     </button>

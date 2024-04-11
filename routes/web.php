@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\FavoriteController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\SearchController;
@@ -14,6 +15,8 @@ Route::get('/search', [PageController::class, 'SearchPage'])->name('search_page'
 
 Route::get('/ajax_search', [SearchController::class, 'ajax_search'])->name('ajax_search');
 Route::get('/search', [SearchController::class, 'search'])->name('searchh');
+
+Route::post('/toggle_favorite', [FavoriteController::class, 'toggle_favorite']);
 
 Route::post('/login', [UserController::class, 'login'])->name('login');
 Route::post('/register',[UserController::class,'register'])->name('register');

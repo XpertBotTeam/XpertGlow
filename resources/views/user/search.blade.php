@@ -9,8 +9,6 @@
 @section('content')
 <link rel="stylesheet" href="{{ asset('assets/css/user/cards.css') }}">
 
-
-
     @if (!empty($query))
     @if (count($results) === 0)
     <div class="no_results">
@@ -21,6 +19,9 @@
     <div class="products_container">
     @foreach($results as $result)
     <div class="product_item">
+        <div class="add_to_favorite">
+            <button><i class="fa-regular fa-heart"></i></button>
+        </div>
         <div class="item_top">
         <a href="{{ route('product', ['id' => $result->id]) }}">
           <img src="https://feel22.com/cdn/shop/files/Untitleddesign_c3897b73-ca5b-4baf-8e92-2f88d2674f3a.png?v=1691411984&width=700" alt="Product 1">

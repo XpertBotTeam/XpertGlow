@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Favorite;
 use App\Models\Product;
 use App\Models\SubCategory;
+use Illuminate\Support\Facades\Auth;
 
 class PageController extends Controller
 
@@ -34,15 +36,25 @@ class PageController extends Controller
         return view('user.search', compact('results', 'query'));
     }
 
-    public function SubCategoryPage($id){
-
-        $subcategory = SubCategory::findOrFail($id);
-        $products = $subcategory->products()->get();
-        return view('user.subcategory', ['subcategory' => $subcategory, 'products' => $products]);
+    public function SubCategoryPage($id)
+    {
+        $subcategory = SubCategory::with('products')->findOrFail($id);
+        $userFavorites = [];
+        if (Auth::check()) {
+            $userId = Auth::id();
+            $userFavorites = Favorite::where('user_id', $userId)
+                ->whereIn('product_id', $subcategory->products->pluck('id'))
+                ->pluck('product_id')
+                ->toArray();
+        }
+        return view('user.subcategory', [
+            'subcategory' => $subcategory,
+            'products' => $subcategory->products,
+            'userFavorites' => $userFavorites,
+        ]);
     }
 
     public function ProductPage($id){
-
         $product = Product::findOrFail($id);
         return view('user.product', ['product' => $product]);
     }
