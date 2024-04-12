@@ -36,6 +36,40 @@ class PageController extends Controller
         return view('user.search', compact('results', 'query'));
     }
 
+    public function FavoritePage()
+    {
+        $products = [];
+        $userFavorites = [];
+        
+        if (Auth::check()) {
+            $products = Product::all();
+            $userId = Auth::id();
+            $userFavorites = Favorite::where('user_id', $userId)
+                ->pluck('product_id')
+                ->toArray();
+        }  
+
+        return view('user.favorite', [
+            'products' => $products,
+            'userFavorites'=>$userFavorites
+        ]);
+    }
+
+    public function CartPage()
+    {
+        return view('user.cart');
+    }
+
+    public function OrderPage()
+    {
+        return view('user.order');
+    }
+
+    public function AccountPage()
+    {
+        return view('user.account');
+    }
+
     public function SubCategoryPage($id)
     {
         $subcategory = SubCategory::with('products')->findOrFail($id);

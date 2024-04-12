@@ -48,15 +48,20 @@
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
 
-                <button class="nav_right_favorite">
-                    <i class="fa-solid fa-heart"></i>
-                </button>
-                
-                <button class="nav_right_cart">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                </button>
-
                 @auth
+
+                    <a href="{{ route('favorite_page') }}">
+                    <button class="nav_right_favorite">
+                        <i class="fa-solid fa-heart"></i>
+                    </button>
+                    </a>
+                    
+                    <a href="{{ route('cart_page') }}">
+                    <button class="nav_right_cart">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                    </button>
+                    </a>
+
                     <button class="nav_right_user" onclick="openUserNav()">
                         <i class="fa-solid fa-user"></i>
                     </button>
@@ -67,8 +72,8 @@
     
                     <div id="login_options" class="login_options">
                         <h3>Welcome to XpertGlow</h3>
-                        <a href="{{ route('login') }}">login</a>
-                        <a href="{{ route('register') }}">register</a>
+                        <a href="{{ route('login_page') }}">login</a>
+                        <a href="{{ route('register_page') }}">register</a>
                     </div>
                 @endauth
                 
@@ -79,7 +84,7 @@
           
         <div class="close_btn"><button onclick="closeCategoriesNav()"><i class="fa-solid fa-xmark"></i></button></div>
         
-        <div class="categories_container">
+        <div id="categories_container" class="categories_container">
             @foreach($categories as $category)
             <div class="category" onclick="toggleSubcategories(this)">
                 <button>{{ $category->name }}<i class="icon fa-solid fa-arrow-down"></i></button>
@@ -94,11 +99,11 @@
     @auth
     <div id="xpertglow_nav_3" class="xpertglow_nav_3">
         <div class="close_btn"><button onclick="closeUserNav()"><i class="fa-solid fa-xmark"></i></button></div>
-        <div class="user_options_container">
-            <a href="#" class="user_option">
+        <div id="user_options_container" class="user_options_container">
+            <a href="{{ route('account_page') }}" class="user_option">
                 <button><i class="fa-solid fa-gears"></i>Account</button>
             </a>
-            <a href="#" class="user_option">
+            <a href="{{ route('order_page') }}" class="user_option">
                 <button><i class="fa-solid fa-truck"></i>Orders</button>
             </a>
             <form method="POST" action="{{ route('logout') }}">

@@ -60,7 +60,7 @@
 }
 
 .search_container {
-    width: 80%;
+    width: 75%;
 }
 
 .search_container form{
@@ -78,7 +78,7 @@
     border: 1px solid var(--border_color);
     border-radius: 50px 0px 0px 50px; 
     padding-left: 15px; 
-    width: 75%;
+    width: 80%;
   
 }
 
@@ -95,7 +95,7 @@
     color: white;
     border: none;
     border-radius: 0px 50px 50px 0px; 
-    width: 25%;
+    width: 20%;
 }
 
 .search_container form input[type="submit"]:hover {
@@ -329,6 +329,7 @@
     font-size: 1.3rem;
     padding-left: 7px;
     border: 1px solid var(--border_color);
+    border-radius: 15px;
 }   
 
 .user_option i{

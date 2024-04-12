@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Favorite;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SearchController extends Controller
 {
@@ -18,13 +20,26 @@ class SearchController extends Controller
     public function search(Request $request)
     {
         $query = $request->input('query');
-        if ($query) {
-            $results = Product::where('name', 'LIKE', '%'.$query.'%')->get();
-        } else {
-            $results = []; 
-        }
-    return view('user.search', ['results' => $results, 'query' => $query]);
+        $products = [];
+        $userFavorites = [];
 
+            if ($query) {
+                $products = Product::where('name', 'LIKE', '%' . $query . '%')->get();
+
+                if (Auth::check()) {
+                    $userId = Auth::id();
+                    $userFavorites = Favorite::where('user_id', $userId)
+                        ->pluck('product_id')
+                        ->toArray();
+                }     
+        }
+        return view('user.search', [
+            'products' => $products,
+            'userFavorites'=>$userFavorites,
+            'query' => $query
+        ]);
     }
+
+    
    
 }

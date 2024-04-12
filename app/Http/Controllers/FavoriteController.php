@@ -31,7 +31,6 @@ class FavoriteController extends Controller
                     $favorite->delete();
                     $response['is_favorite'] = false;
                 }
-                
             }
             else {
                 if ($isFavorite === false) {
