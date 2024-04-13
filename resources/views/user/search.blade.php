@@ -21,8 +21,8 @@
 
         @foreach($products as $product)
               @php $product->is_favorite = in_array($product->id, $userFavorites); @endphp
-                <div class="product_item" data-id="{{ $product->id }}">
-                    <div class="add_to_favorite">
+                <div class="product_item">
+                    <div class="add_to_favorite" data-id="{{ $product->id }}">
                         <button class="favorite_button" data-in-favorites="{{ $product->is_favorite ? 'true' : 'false' }}">
                             <i class="{{ $product->is_favorite ? 'fa-solid' : 'fa-regular' }} fa-heart"></i>
                         </button>

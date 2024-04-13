@@ -2,9 +2,10 @@ $(document).ready(function() {
     $('.favorite_button').on('click', function(event) {
         event.preventDefault();
         const button = $(this);
-        const productItem = button.closest('.product_item');
-        const productId = productItem.data('id');
+        const addToFavorite = button.closest('.add_to_favorite');
+        const productId = addToFavorite.data('id');
         const isInFavorites = button.data('in-favorites');
+
         $.ajax({
             url: '/toggle_favorite',
             method: 'POST',
@@ -16,6 +17,7 @@ $(document).ready(function() {
                 is_favorite: isInFavorites 
             },
             success: function(response) {
+
                 button.data('in-favorites', response.is_favorite);
                 const icon = button.find('i');
                 if (response.is_favorite) {

@@ -88,8 +88,21 @@ class PageController extends Controller
         ]);
     }
 
-    public function ProductPage($id){
+    public function ProductPage($id)
+    {
         $product = Product::findOrFail($id);
-        return view('user.product', ['product' => $product]);
+        $isFavorited = false;
+
+        if (Auth::check()) {
+            $userId = Auth::id();
+            $isFavorited = Favorite::where('user_id', $userId)
+                                ->where('product_id', $id)
+                                ->exists();
+        }
+
+        return view('user.product', [
+            'product' => $product,
+            'isFavorited' => $isFavorited,
+        ]);
     }
 }
