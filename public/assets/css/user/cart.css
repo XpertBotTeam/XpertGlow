@@ -1,0 +1,205 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.cart_wrapper{
+    display: flex;
+    max-width: 1200px;
+    margin: 80px auto 0 auto;
+    padding: 10px;
+    gap: 25px;
+    overflow: hidden;
+}
+
+.all_items{
+    flex: 2; 
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 20px;
+    box-shadow: 0px 0px 19px 6px rgba(0,0,0,0.2);
+    height: min-content;
+}
+
+.item:first-child{
+    border: none;
+}
+
+.item:first-child .item_delete button{
+    background-color: rgb(112, 0, 0);
+}
+
+.item{
+    display: flex;
+    border: 2px solid rgb(141, 141, 141 ,0.3);
+    border-radius: 20px;
+}
+
+.item_image{
+    flex: 1.5;
+}
+
+.item_image .image_container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.item_image .image_container img{
+    width: 90%;
+    aspect-ratio: 0.9;
+    object-fit: contain;
+}
+
+.item_name{
+    flex: 1.5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.item_quantity{
+    flex: 1.5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   
+}
+
+.item_quantity .input_container{
+    display: flex;
+    height: 50px;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    border-radius: 50px;
+    border: 1px solid #ccc;
+    overflow: hidden;
+}
+
+.item_quantity .input_container button , .item_quantity .input_container input{
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    border: none;
+}
+
+.item_quantity .input_container button{
+    width: 30%; 
+    background-color: black;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.item_quantity .input_container input{
+    width: 40%; 
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.item_subtotal{
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.item_delete{
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.item_delete button{
+    width: 80%;
+    border-radius: 50px;
+    height: 50px;
+    border: 1px solid #ccc;
+    background-color: black;
+    color: white;
+}
+
+.item_delete button:hover,.item_quantity .input_container button:hover , .check .check_place button:hover{  
+    background-color: #161717;
+}
+
+.check{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 15px;
+    border-radius: 20px;
+    box-shadow: 0px 0px 19px 6px rgba(0,0,0,0.2);
+    height: 300px;
+    min-height: 300px;
+
+}
+
+.check .check_summary{
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.check .check_items , .check .check_price{
+    font-size: 25px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.check span{
+    font-weight: bold;
+}
+
+#address-select {
+    width: 100%; 
+    padding: 10px; 
+    border: 1px solid #ccc; 
+    border-radius: 50px; 
+    height: 50px;
+    font-size: 18px;
+    appearance: none; 
+    background-color: #f9f9f9;
+    cursor: pointer; 
+}
+
+#address-select option {
+    width: 100%;
+    font-size: 20px; 
+}
+
+#address-select:hover {
+    border-color: black; 
+}
+
+.check .check_place button{
+    width: 100%;
+    border-radius: 50px;
+    height: 50px;
+    border: 1px solid #ccc;
+    background-color: black;
+    color: white;
+    text-transform: uppercase;
+}
+
+@media screen and (max-width: 768px) {
+
+    .cart_wrapper {
+        flex-direction: column;
+        margin: 80px 20px 0 20px;
+    }
+
+}

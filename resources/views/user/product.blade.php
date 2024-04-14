@@ -37,11 +37,12 @@
                 <input type="number" id="quantity" value="1" min="1" readonly>
                 <button id="increase">+</button>
             </div>
-            <button id="addToCart">Add to Cart</button>
+            <button id="addToCart" data-id="{{ $product->id }}">Add to Cart</button>
         </div>
     </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{{ asset('assets/js/user/toggle_add_to_cart.js') }}"></script>
 <script src="{{ asset('assets/js/user/toggle_favorite.js') }}"></script>
 <script src="{{ asset('assets/js/user/product.js') }}"></script>
 @endsection

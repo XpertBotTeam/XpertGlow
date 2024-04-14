@@ -9,16 +9,12 @@ thumbnailButtons.forEach(button => {
     button.addEventListener('click', changeMainImage);
 });
 
-
-
 const quantityInput = document.getElementById('quantity');
 const decreaseButton = document.getElementById('decrease');
 const increaseButton = document.getElementById('increase');
-const addToCartButton = document.getElementById('addToCart');
 
 increaseButton.addEventListener('click', increaseQuantity);
 decreaseButton.addEventListener('click', decreaseQuantity);
-addToCartButton.addEventListener('click', addToCart);
 
 function increaseQuantity() {
 let quantity = parseInt(quantityInput.value, 10);
@@ -32,9 +28,4 @@ function decreaseQuantity() {
         quantity--;
         quantityInput.value = quantity;
     }
-}
-
-function addToCart() {
-const quantity = parseInt(quantityInput.value, 10);
-alert(`Added ${quantity} item(s) to cart!`);
 }

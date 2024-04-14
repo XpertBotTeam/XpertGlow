@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Favorite;
 use App\Models\Product;
 use App\Models\SubCategory;
@@ -56,7 +57,13 @@ class PageController extends Controller
 
     public function CartPage()
     {
-        return view('user.cart');
+        $userId = Auth::id();
+
+        $cart = Cart::where('user_id', $userId)
+                ->with('cartItems.product.images') 
+                ->first();
+
+        return view('user.cart', compact('cart'));
     }
 
     public function OrderPage()
