@@ -14,7 +14,6 @@ class FavoriteController extends Controller
             if (!Auth::check()) {
                 return response()->json(['error' => 'Unauthorized'], 401);
             }
-
             $userId = Auth::id();
             $productId = $request->input('product_id');
             $isFavorite = filter_var($request->input('is_favorite'), FILTER_VALIDATE_BOOLEAN);
@@ -46,8 +45,5 @@ class FavoriteController extends Controller
             }
 
             return response()->json($response);
-
     }
-
- 
 }

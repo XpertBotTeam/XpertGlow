@@ -38,21 +38,20 @@ class PageController extends Controller
 
     public function FavoritePage()
     {
-        $products = [];
+        $products = collect();
         $userFavorites = [];
         
         if (Auth::check()) {
-            $products = Product::all();
             $userId = Auth::id();
-            $userFavorites = Favorite::where('user_id', $userId)
-                ->pluck('product_id')
-                ->toArray();
+            $favoriteProductIds = Favorite::where('user_id', $userId)
+            ->pluck('product_id')
+            ->toArray();
+            $products = Product::with('images')
+            ->whereIn('id', $favoriteProductIds)
+            ->get();
+            $userFavorites = $favoriteProductIds;
         }  
-
-        return view('user.favorite', [
-            'products' => $products,
-            'userFavorites'=>$userFavorites
-        ]);
+        return view('user.favorite', compact('products', 'userFavorites'));
     }
 
     public function CartPage()
@@ -72,7 +71,7 @@ class PageController extends Controller
 
     public function SubCategoryPage($id)
     {
-        $subcategory = SubCategory::with('products')->findOrFail($id);
+        $subcategory = SubCategory::with(['products.images'])->findOrFail($id);
         $userFavorites = [];
         if (Auth::check()) {
             $userId = Auth::id();
@@ -81,28 +80,20 @@ class PageController extends Controller
                 ->pluck('product_id')
                 ->toArray();
         }
-        return view('user.subcategory', [
-            'subcategory' => $subcategory,
-            'products' => $subcategory->products,
-            'userFavorites' => $userFavorites,
-        ]);
+        return view('user.subcategory', compact('subcategory', 'userFavorites'));
     }
 
     public function ProductPage($id)
     {
         $product = Product::findOrFail($id);
         $isFavorited = false;
-
         if (Auth::check()) {
             $userId = Auth::id();
             $isFavorited = Favorite::where('user_id', $userId)
                                 ->where('product_id', $id)
                                 ->exists();
         }
-
-        return view('user.product', [
-            'product' => $product,
-            'isFavorited' => $isFavorited,
-        ]);
+        $images = $product->images;
+        return view('user.product', compact('product', 'images', 'isFavorited'));
     }
 }

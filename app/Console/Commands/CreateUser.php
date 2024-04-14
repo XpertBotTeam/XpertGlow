@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Product;
 use Illuminate\Console\Command;
 use App\Models\User;
 
@@ -33,6 +34,7 @@ class CreateUser extends Command
             'password'=>bcrypt("12345678")
         ]);
 
-        
+        $product = Product::find(1); 
+        $product->images()->create(['path' => 'path/to/image.jpg']); 
     }
 }

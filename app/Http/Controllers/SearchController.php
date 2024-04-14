@@ -20,24 +20,27 @@ class SearchController extends Controller
     public function search(Request $request)
     {
         $query = $request->input('query');
-        $products = [];
+        $products = collect(); 
         $userFavorites = [];
 
-            if ($query) {
-                $products = Product::where('name', 'LIKE', '%' . $query . '%')->get();
+        if ($query) {
 
-                if (Auth::check()) {
-                    $userId = Auth::id();
-                    $userFavorites = Favorite::where('user_id', $userId)
-                        ->pluck('product_id')
-                        ->toArray();
-                }     
+            $products = Product::with('images')
+                ->where('name', 'LIKE', '%' . $query . '%')
+                ->get();
+            if (Auth::check()) {
+                $userId = Auth::id();
+                $userFavorites = Favorite::where('user_id', $userId)
+                    ->pluck('product_id')
+                    ->toArray();
+            }
         }
         return view('user.search', [
             'products' => $products,
-            'userFavorites'=>$userFavorites,
+            'userFavorites' => $userFavorites,
             'query' => $query
         ]);
+
     }
 
     
