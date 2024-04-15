@@ -106,12 +106,13 @@
             <a href="{{ route('order_page') }}" class="user_option">
                 <button><i class="fa-solid fa-truck"></i>Orders</button>
             </a>
-            <form method="POST" action="{{ route('logout') }}">
-            @csrf
-                <div class="user_option">
-                    <button><i class="fa-solid fa-right-from-bracket"></i>Logout</button>
-                </div>
-            </form>
+
+            <a class="user_option">
+                <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                        <button><i class="fa-solid fa-right-from-bracket"></i>Logout</button>
+                </form>
+            </a>
         </div>
     </div>
 

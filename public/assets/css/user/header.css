@@ -264,7 +264,6 @@
     padding: 0 8px;
     background-color: var(--primary_color_background);
     font-size: 1.1rem;
-    
 }
 
 .icon {
@@ -310,25 +309,38 @@
 
 .user_options_container{
     width: 100%;
+    height: 100%;
     padding: 0 8px;
+    flex-direction: column;
+    gap: 15px;
 }
 
-.user_option{
+.user_option , .user_option form{
     display: flex;
     align-items: center;
     justify-content: start;
     width: 100%;
-    margin-bottom: 15px;
     text-decoration: none;
     color: black;
 }
 
-.user_option button{
+.user_option:last-child{
+    margin-top: auto;
+    margin-bottom: 15px;
+}
+
+.user_option:last-child form button{
+    background-color: black;
+    color: white;
+    height: 50px;
+}
+
+.user_option button , .user_option form button{
     width: 100%;
     text-align: start;
     height: 40px;
     font-size: 1.3rem;
-    padding-left: 7px;
+    padding-left: 15px;
     border: 1px solid var(--border_color);
     border-radius: 15px;
 }   

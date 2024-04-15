@@ -1,0 +1,15 @@
+.no_results{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+ }
+
+ .no_results .no_results_i{
+   font-size: 40px;
+}
+
+.no_results .no_results_text{
+ font-size: 40px;
+}

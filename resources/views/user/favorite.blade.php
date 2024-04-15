@@ -4,6 +4,7 @@
 @section('content')
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="{{ asset('assets/css/user/cards.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/user/no_results.css') }}">
 
     @if(empty($userFavorites))
         <div class="no_results">

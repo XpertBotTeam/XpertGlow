@@ -18,6 +18,9 @@ Route::get('/search', [SearchController::class, 'search'])->name('searchh');
 
 Route::post('/toggle_favorite', [ActionController::class, 'toggle_favorite']);
 Route::post('/toggle_add_to_cart', [ActionController::class, 'toggle_add_to_cart']);
+Route::post('/update_cart_item', [ActionController::class, 'update_cart_item']);
+Route::post('/delete_cart_item', [ActionController::class, 'delete_cart_item']);
+Route::post('/delete_cart', [ActionController::class, 'delete_cart']);
 
 Route::post('/login', [UserController::class, 'login'])->name('login');
 Route::post('/register',[UserController::class,'register'])->name('register');
