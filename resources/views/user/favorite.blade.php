@@ -1,4 +1,4 @@
-@section('title', 'Your Favorites')
+@section('title', 'Your Favorite(s)')
 @extends('user.partials.header')
 
 @section('content')

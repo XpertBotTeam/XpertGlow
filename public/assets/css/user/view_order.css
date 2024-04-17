@@ -1,0 +1,189 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.order_wrapper{
+    max-width: 900px;
+    margin: 90px auto 0  auto;
+    box-shadow: 0px 0px 19px 6px rgba(0,0,0,0.2);
+    border-radius: 20px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.order_status{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 90px;
+    padding: 15px 60px;
+    position: relative;
+}
+
+.line_1 , .line_2{
+    width: 50%;
+    background-color: #ccc;
+    height: 5px;
+}
+
+.pending , .processing , .completed{
+    position: absolute;
+    font-weight: bold;
+    font-size: 18px;
+    top:70%;
+}
+
+.pending{
+    left: 28px;
+    color: #ccc;
+}
+
+.processing{
+    left: 50%;
+    transform: translateX(-50%);
+    color: #ccc;
+}
+
+.completed{
+    right: 20px;
+    color: #ccc;
+}
+
+.pending_circle ,.processing_circle,.completed_circle{
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+}
+
+.pending_circle{
+    border: 5px solid #ccc;
+    background-color: white;
+    left: 45px;
+}
+
+.processing_circle{
+    border: 5px solid #ccc;
+    background-color: white;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.completed_circle{
+    border: 5px solid #ccc;
+    background-color: white;
+    right: 45px;
+}
+
+
+@media screen and (max-width: 768px) {
+
+    .order_status{
+        height: 50px;
+    }
+
+    .pending , .processing , .completed{
+        font-size: 14px;
+        top: 85%;
+    }
+
+    .pending_circle , .processing_circle , .completed_circle{
+        height: 18px;
+        width: 18px;
+    }
+
+}
+
+@keyframes fade_shadow {
+    0%   {box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);}
+    25%  {box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);}
+    50%  {box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);}
+    75%  {box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);}
+    100% {box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);}
+}
+
+
+.order_information{
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 10px;
+}
+
+.order_information .order_cancel{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.order_information .order_cancel button{
+    height: 40px;
+    width: 30%;
+    background-color: black;
+    color: white;
+    border-radius: 50px;
+    border: 1px solid #ccc;
+}
+
+.order_information .order_cancel button:hover{
+    background-color: #535353;
+    border: 1px solid black;
+}
+
+.order_information  div span{
+    font-weight: bold;
+}
+
+.order_information .order_status_text{
+ text-transform: capitalize;
+}
+
+.order_items{
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    padding: 0 20px;
+}
+
+
+.item{
+    display: flex;
+    border: 1px solid #ccc; 
+    height: 150px;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.img_container{
+    aspect-ratio: 0.9;
+    height: 100%;
+}
+
+.img_container img{
+    object-fit: contain;
+    height: 100%;
+}
+
+.item_information{
+    padding-left: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 7px;
+}
+
+@media screen and (max-width: 768px) {
+
+    .order_wrapper{
+ 
+        margin: 90px 15px 0  15px;
+    }
+
+    .order_information , .order_items{
+        font-size: 14px;
+    }
+}

@@ -72,6 +72,29 @@ $(document).ready(function() {
         });
     }
 
+    function place_order(cartElement , addressId) {
+
+        const cartId = cartElement.data('cart-id');
+
+        $.ajax({
+            url: '/place_order',
+            method: 'POST',
+            headers: {
+                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: {
+                cart_id: cartId,
+                address_id: addressId
+            },
+            success: function(response) {
+                window.location.href = '/cart';
+            },
+            error: function() {
+            }
+        });
+
+    }
+
     $('.input_container button#increase').click(function() {
         const button = $(this);
         const itemElement = button.closest('.item');
@@ -103,6 +126,16 @@ $(document).ready(function() {
         delete_cart(cartElement);
     });
 
+    $('.check_place button#place_order').click(function() {
+        const button = $(this);
+        const cartElement = button.closest('.check_place');
+        const selectedAddress = $('#address-select').val();
+
+        if (selectedAddress) {
+            place_order(cartElement,selectedAddress);
+        }
+        
+    });
 
     function updateCartUI(cart) {
 

@@ -20,7 +20,7 @@
     justify-content: center;
     position: absolute;
     overflow: hidden;
-    z-index: 2;
+    z-index: 1;
     border-radius: 15px;
     border: 2px solid rgb(141, 141, 141 ,0.3);
     top: 20px;

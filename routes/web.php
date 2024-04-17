@@ -21,6 +21,10 @@ Route::post('/toggle_add_to_cart', [ActionController::class, 'toggle_add_to_cart
 Route::post('/update_cart_item', [ActionController::class, 'update_cart_item']);
 Route::post('/delete_cart_item', [ActionController::class, 'delete_cart_item']);
 Route::post('/delete_cart', [ActionController::class, 'delete_cart']);
+Route::post('/place_order', [ActionController::class, 'place_order']);
+Route::post('/cancel_order', [ActionController::class, 'cancel_order']);
+Route::post('/add_address', [ActionController::class, 'add_address']);
+Route::post('/change_password', [ActionController::class, 'change_password']);
 
 Route::post('/login', [UserController::class, 'login'])->name('login');
 Route::post('/register',[UserController::class,'register'])->name('register');
@@ -30,6 +34,7 @@ Route::group(['middleware' => 'user'], function () {
     Route::get('/favorite', [PageController::class, 'FavoritePage'])->name('favorite_page');
     Route::get('/cart', [PageController::class, 'CartPage'])->name('cart_page');
     Route::get('/order', [PageController::class, 'OrderPage'])->name('order_page');
+    Route::get('/order/view/{id}', [PageController::class, 'ViewOrderPage'])->name('view_order_page');
     Route::get('/account', [PageController::class, 'AccountPage'])->name('account_page');
 });
 

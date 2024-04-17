@@ -17,7 +17,10 @@ $(document).ready(function() {
                 console.log("added");
             },
             error: function(xhr, status, error) {
-                console.log("error");
+                console.error('Failed to toggle Add to Cart status:', error);
+                if (xhr.status === 401) {
+                    window.location.href = '/login';
+                }
             }
         });
     });

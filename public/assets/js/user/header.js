@@ -43,6 +43,8 @@ function showLoginOptions() {
         loginOptions.style.display = "none";
     } else {
         loginOptions.style.display = "block";
+        document.getElementById("categories_container").style.display = "none";
+        document.getElementById("xpertglow_nav_2").style.width = "0";
     }
 }
 

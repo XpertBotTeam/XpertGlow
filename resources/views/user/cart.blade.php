@@ -58,10 +58,20 @@
             <div class="check_address">
                 <select id="address-select" name="address-select" required>
                     <option value="" disabled selected>Select an Address</option>
-                    <option value="21">bidyas</option>
+                    @foreach ($addresses as $address)
+                        <option value="{{ $address->id }}">
+                            {{ $address->name }} 
+                            {{ $address->surname }} / 
+                            {{ $address->district }} -
+                            {{ $address->locality }} -
+                            {{ $address->phone }}
+                        </option>
+                    @endforeach
                 </select>
             </div>
-            <div class="check_place"><button>Place Order</button></div>
+            <div class="check_place" data-cart-id="{{ $cart->id }}">
+                <button id="place_order" >Place Order</button>
+            </div>
         </div>
         </div>
 @else

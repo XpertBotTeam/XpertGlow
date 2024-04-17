@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Address;
 use App\Models\Cart;
 use App\Models\Favorite;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\SubCategory;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class PageController extends Controller
@@ -63,17 +66,30 @@ class PageController extends Controller
                 ->with('cartItems.product.images') 
                 ->first();
 
-        return view('user.cart', compact('cart'));
+        $addresses = Address::where('user_id', $userId)->get();
+
+        return view('user.cart', compact('cart','addresses'));
     }
 
     public function OrderPage()
     {
-        return view('user.order');
+        $userId = Auth::id();
+        $orders = Order::where('user_id',$userId)->with('orderItems.product.images')->get();
+        return view('user.order',compact('orders'));
+    }
+
+    public function ViewOrderPage($id)
+    {  
+         $order = Order::with(['orderItems.product.images','address'])->findOrFail($id);
+
+        return view('user.view_order', compact('order'));
     }
 
     public function AccountPage()
     {
-        return view('user.account');
+        $userId = Auth::id();
+        $user = User::with(['addresses'])->findOrFail($userId);
+        return view('user.account', compact('user'));
     }
 
     public function SubCategoryPage($id)

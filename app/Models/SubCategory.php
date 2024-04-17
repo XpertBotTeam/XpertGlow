@@ -28,4 +28,9 @@ class SubCategory extends Model
     {
         return $this->morphMany(Image::class, 'imageable');
     }
+
+    public function carousels()
+    {
+        return $this->morphMany(Carousel::class, 'carouselable');
+    }
 }

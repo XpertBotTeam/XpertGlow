@@ -11,23 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('addresses', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->enum('status', ['pending', 'processing', 'completed', 'cancelled'])->default('pending');
-            $table->decimal('total_price', 10, 2);
-            $table->unsignedBigInteger('address_id');
-            $table->foreign('address_id')->references('id')->on('addresses')->onDelete('cascade')->onUpdate('cascade');
+            $table->string('name');
+            $table->string('surname');
+            $table->string('address');
+            $table->string('more_info');
+            $table->string('district');
+            $table->string('locality');
+            $table->string('phone');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('addresses');
     }
 };
