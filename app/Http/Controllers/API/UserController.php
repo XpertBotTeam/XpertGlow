@@ -12,50 +12,6 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-    public function login(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
-            'password' => 'required|min:6',
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-
-        $credentials = $request->only('email', 'password');
-
-        if (Auth::attempt($credentials)) {
-            $user = Auth::user();
-
-            if ($user->isAdmin) {
-                return redirect()->route('admin.home');
-            } else {
-                return redirect()->route('user.home');
-            }
-        } else {
-            return back()->withErrors(['message' => 'Invalid credentials']);
-        }
-    }
-
-    public function logout()
-    {
-        Auth::logout();
-        return redirect()->route('user.home');
-    }
-
-    public function register(UserRequest $request)
-    {
-        $user = User::create([
-            'name' => $request->input('name'),
-            'phone' => $request->input('phone'),
-            'email' => $request->input('email'),
-            'password' => Hash::make($request->input('password')),
-        ]);
     
-        Auth::login($user);
-    
-        return redirect()->route('user.home');
-    }
 }
 

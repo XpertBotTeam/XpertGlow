@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Address;
+use App\Models\Carousel;
 use App\Models\Cart;
+use App\Models\Category;
 use App\Models\Favorite;
 use App\Models\Order;
 use App\Models\Product;
@@ -23,6 +25,7 @@ class PageController extends Controller
     {
         return view('admin.home');
     }
+
     public function LoginPage()
     {
         return view('auth.login');
@@ -119,4 +122,69 @@ class PageController extends Controller
         $images = $product->images;
         return view('user.product', compact('product', 'images', 'isFavorited'));
     }
+
+    public function AdminUser()
+    {
+        $users = User::with('orders')
+            ->where('isAdmin', false)  
+            ->get();
+
+        return view('admin.user', compact('users'));
+    }
+
+    public function AdminCategories()
+    {
+        $categories = Category::with(['images'])->get();
+        return view('admin.category',compact('categories'));
+    }
+
+    public function AdminCategory($id)
+    {
+        $category = Category::find($id);
+        return view('admin.category_edit',compact('category'));
+    }
+
+    public function AdminSubCategories()
+    {
+        $subcategories = SubCategory::with(['images'])->get();
+        $categories = Category::all();
+        return view('admin.subcategory',compact('subcategories','categories'));
+    }
+
+    public function AdminSubCategory($id)
+    {
+        $subcategory = SubCategory::with(['category'])->find($id);
+        $categories = Category::all();
+        return view('admin.subcategory_edit',compact('subcategory','categories'));
+    }
+
+    public function AdminProducts()
+    {
+        $products = Product::with(['images'])->get();
+        $subcategories = SubCategory::all();
+        return view('admin.product',compact('products','subcategories'));
+    }
+
+    public function AdminProduct($id)
+    {
+        $product = Product::with(['subcategory'])->find($id);
+        $subcategories = SubCategory::all();
+        return view('admin.product_edit',compact('product','subcategories'));
+    }
+
+    public function AdminOrders()
+    {
+        $orders = Order::with(['user','address'])->get();
+        return view('admin.order',compact('orders'));
+    }
+
+    public function AdminCarousels()
+    {
+        $products = Product::all();
+        $subcategories = SubCategory::all();
+        $carousels = Carousel::with(['image'])->get();
+        return view('admin.carousel',compact('carousels','products','subcategories'));
+    }
+
+
 }

@@ -25,7 +25,11 @@
         <div class="item" data-item-id="{{ $cartItem->id }}">
             <div class="item_image">
                 <div class="image_container">
-                    <img src="{{ asset('storage/images/products/' . $cartItem->product->images->first()->path) }}" alt="Product 1">
+                    @if ($cartItem->product->images->count() > 0)
+                         <img src="{{ asset('storage/images/products/' . $cartItem->product->images->first()->path) }}" alt="{{ $cartItem->product->name }}">
+                    @else
+                         <img src="{{ asset('storage/images/products/no_images.png') }}" alt="No image available">
+                    @endif
                 </div>
             </div>
             <div class="item_name">

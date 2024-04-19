@@ -108,7 +108,7 @@
             </a>
 
             <a class="user_option">
-                <form method="POST" action="{{ route('logout') }}">
+                <form method="POST" action="/logout">
                 @csrf
                         <button><i class="fa-solid fa-right-from-bracket"></i>Logout</button>
                 </form>

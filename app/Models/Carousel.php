@@ -14,8 +14,9 @@ class Carousel extends Model
         return $this->morphTo();
     }
 
-    public function images()
+
+    public function image()
     {
-        return $this->morphMany(Image::class, 'imageable');
+        return $this->morphOne(Image::class, 'imageable');
     }
 }

@@ -10,10 +10,17 @@ class UserMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::check() && !Auth::user()->isAdmin) {
-            return $next($request);
+        if (Auth::check()) {
+            if(Auth::user()->isAdmin){
+                return redirect()->route('admin.home');
+            }
+            else{
+                return $next($request);
+            }
         }
 
-        return redirect()->route('user.home')->with('error', 'You do not have permission to access this page.');
+        else{
+            return $next($request);
+        }
     }
 }

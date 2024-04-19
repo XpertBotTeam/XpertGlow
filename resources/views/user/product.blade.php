@@ -14,7 +14,11 @@
     <div class="images_container">
         <div class="image_display_container">
             <div class="image_display">
-            <img id="main_image" src="{{ asset('storage/images/products/' . $images->first()->path) }}" alt="Product Image">
+                @if ($images->isNotEmpty())
+                    <img id="main_image" src="{{ asset('storage/images/products/' . $images->first()->path) }}" alt="Product Image">
+                @else
+                    <img id="main_image" src="{{ asset('storage/images/products/no_images.png') }}" alt="No Images">
+                @endif
             </div>
         </div>
         <div class="image_select">

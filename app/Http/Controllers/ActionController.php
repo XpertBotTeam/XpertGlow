@@ -2,20 +2,74 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
 use App\Models\Address;
+use App\Models\Carousel;
 use App\Models\Cart;
 use App\Models\CartItem;
+use App\Models\Category;
 use App\Models\Favorite;
+use App\Models\Image;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Models\SubCategory;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class ActionController extends Controller
 {
+
+
+    public function login(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required|min:6',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+
+            if ($user->isAdmin) {
+                return redirect()->route('admin.home');
+            } else {
+                return redirect()->route('user.home');
+            }
+        } else {
+            return back()->withErrors(['message' => 'Invalid credentials']);
+        }
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->route('user.home');
+    }
+
+    public function register(UserRequest $request)
+    {
+        $user = User::create([
+            'name' => $request->input('name'),
+            'phone' => $request->input('phone'),
+            'email' => $request->input('email'),
+            'password' => Hash::make($request->input('password')),
+        ]);
+    
+        Auth::login($user);
+    
+        return redirect()->route('user.home');
+    }
 
     public function update_cart_item(Request $request)
     {
@@ -239,7 +293,197 @@ class ActionController extends Controller
         else{
             return redirect()->back();
         }
-
-        
     }
+
+    public function create_category(Request $request)
+    {
+        $category = Category::create(['name' => $request->input('name')]);
+        return redirect()->to('/admin/category');
+    }
+
+    public function update_category(Request $request, $id)
+    {
+            $category = Category::find($id);
+            if ($category) {
+                $category->name = $request->input('name');
+                $category->save();
+            }
+            return redirect()->to('/admin/category');
+    }
+    
+    public function delete_category($id)
+    {
+        $category = Category::find($id);
+        $category->delete();
+        return redirect()->to('/admin/category');
+    }
+
+    public function create_subcategory(Request $request)
+    {
+        $subcategory = SubCategory::create([
+            'name' => $request->input('name'),
+            'category_id' => $request->input('category')
+        ]);
+        return redirect()->to('/admin/subcategory');
+    }
+
+    public function update_subcategory(Request $request, $id)
+    {
+            $subcategory = SubCategory::find($id);
+
+            if ($subcategory) {
+                $subcategory->name = $request->input('name');
+                $subcategory->category_id = $request->input('category');
+                $subcategory->save();
+            }
+            return redirect()->to('/admin/subcategory');
+    }
+    
+    public function delete_subcategory($id)
+    {
+        $subcategory = SubCategory::find($id);
+        $subcategory->delete();
+        return redirect()->to('/admin/subcategory');
+    }
+
+    public function create_product(Request $request)
+    {
+        $product = Product::create([
+            'name' => $request->input('name'),
+            'code' => $request->input('code'),
+            'description' => $request->input('description'),
+            'price' => $request->input('price'),
+            'quantity' => $request->input('quantity'),
+            'sub_category_id' => $request->input('subcategory'),
+        ]);
+        return redirect()->to('/admin/product');
+    }
+
+    public function update_product(Request $request, $id)
+    {
+            $product = Product::find($id);
+            if ($product) {
+                $product->name = $request->input('name');
+                $product->description = $request->input('description');
+                $product->code = $request->input('code');
+                $product->quantity = $request->input('quantity');
+                $product->sub_category_id = $request->input('subcategory');
+                $product->save();
+            }
+            return redirect()->to('/admin/product');
+    }
+    
+    public function delete_product($id)
+    {
+        $product = Product::find($id);
+        $product->delete();
+        return redirect()->to('/admin/product');
+    }
+
+    public function delete_user($id)
+    {
+        $user = User::find($id);
+        $user->delete();
+        return redirect()->to('/admin/user');
+    }
+
+    public function upload_image(Request $request)
+    {
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+        ]);
+        $imageFile = $request->file('image');
+        $pathPrefix = 'images/';
+        if ($request->has('imageable_type')) {
+            if ($request->input('imageable_type') == 'App\Models\Category') {
+                $pathPrefix .= 'categories/';
+            } elseif ($request->input('imageable_type') == 'App\Models\SubCategory') {
+                $pathPrefix .= 'subcategories/';
+            } elseif ($request->input('imageable_type') == 'App\Models\Product') {
+                $pathPrefix .= 'products/';
+            } elseif ($request->input('imageable_type') == 'App\Models\Carousel') {
+                $pathPrefix .= 'carousels/';
+            }
+        }
+        $fullPath = $imageFile->store($pathPrefix, 'public');
+        $fileName = basename($fullPath);
+        $image = new Image();
+        $image->path = $fileName;
+        $image->imageable_id = $request->input('id'); 
+        $image->imageable_type = $request->input('imageable_type'); 
+        $image->save();
+        return redirect()->back();
+    }
+
+    public function delete_image($id)
+    {
+            $image = Image::find($id);
+            if (!$image) {
+                return redirect()->back();
+            }
+            $filePath = null;
+            if ($image->imageable_type == "App\Models\Category") {
+                $filePath = "images/categories/$image->path";
+            } elseif ($image->imageable_type == "App\Models\SubCategory") {
+                $filePath = "images/subcategories/$image->path";
+            } elseif ($image->imageable_type == "App\Models\Product") {
+                $filePath = "images/products/$image->path";
+            } elseif ($image->imageable_type == "App\Models\Carousel") {
+                $filePath = "images/carousels/$image->path";
+            }
+            if ($filePath) {
+                Storage::disk('public')->delete($filePath);
+            }
+            $image->delete();
+            return redirect()->back();
+    }
+
+    public function create_carousel(Request $request)
+    {
+           
+            $carousel = new Carousel();
+            $carousel->carouselable_id = $request->input('carouselable_id');
+            $carousel->carouselable_type = $request->input('carouselable_type');
+            $carousel->save();
+
+            $imageFile = $request->file('image');
+            $pathPrefix = 'images/carousels/';
+            $fullPath = $imageFile->store($pathPrefix, 'public');
+            $fileName = basename($fullPath);
+            $image = new Image();
+            $image->path = $fileName;
+            $image->imageable_id = $carousel->id; 
+            $image->imageable_type = 'App\Models\Carousel'; 
+            $image->save();
+
+            return redirect()->back();
+
+    }
+
+    public function delete_carousel($id)
+    {
+        $carousel = Carousel::find($id);
+        if($carousel){
+            $image = Image::where('imageable_id', $carousel->id)->first();
+            if ($image) {
+                $filePath = null;
+                if ($image->imageable_type == "App\Models\Category") {
+                    $filePath = "images/categories/$image->path";
+                } elseif ($image->imageable_type == "App\Models\SubCategory") {
+                    $filePath = "images/subcategories/$image->path";
+                } elseif ($image->imageable_type == "App\Models\Product") {
+                    $filePath = "images/products/$image->path";
+                } elseif ($image->imageable_type == "App\Models\Carousel") {
+                    $filePath = "images/carousels/$image->path";
+                }
+                if ($filePath) {
+                    Storage::disk('public')->delete($filePath);
+                }
+                $image->delete();
+            }
+            $carousel->delete();
+        }
+        return redirect()->back();
+    }
+
 }

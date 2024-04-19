@@ -40,13 +40,18 @@
             <div class="order_total_items"><span>{{$itemCount}} Item(s)</span></div>
         </div>
 
-
         <div class="order_items">
                 @foreach($order->orderItems as $orderItem)
                 <div class="item" data-item_id="{{$orderItem->id}}">
+
                     <div class="img_container">
-                        <img src="{{ asset('storage/images/products/' . $orderItem->product->images->first()->path) }}" alt="Product Image">
+                        @if ($orderItem->product->images->count() > 0)
+                            <img src="{{ asset('storage/images/products/' . $orderItem->product->images->first()->path) }}" alt="Product Image">
+                        @else
+                             <img src="{{ asset('storage/images/products/no_images.png') }}" alt="No image available">
+                        @endif
                     </div>
+
                     <div class="item_information">
                         <div class="item_name">{{$orderItem->product->name}}</div>
                         <div class="item_price">$ {{$orderItem->price}}</div>

@@ -29,11 +29,17 @@
         <div class="order_status"><span>Status : </span>{{$order->status}}</div>
         <div class="order_items"><span>{{$itemCount}} Item(s)</span></div>
         <div class="order_images">
+
             @foreach($order->orderItems as $orderItem)
                 <div class="img_container">
-                    <img src="{{ asset('storage/images/products/' . $orderItem->product->images->first()->path) }}" alt="Product Image">
+                    @if ($orderItem->product->images->count() > 0)
+                        <img src="{{ asset('storage/images/products/' . $orderItem->product->images->first()->path) }}" alt="Product Image">
+                    @else
+                         <img src="{{ asset('storage/images/products/no_images.png') }}" alt="No image available">
+                    @endif
                 </div>
             @endforeach
+
         </div>
         <div class="order_view"><a href="/order/view/{{$order->id}}">View Order</a></div>
     </div>

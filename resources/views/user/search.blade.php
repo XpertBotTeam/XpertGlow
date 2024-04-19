@@ -32,7 +32,7 @@
                                 @if ($product->images->isNotEmpty())
                                     <img src="{{ asset('storage/images/products/' . $product->images->first()->path) }}" alt="{{ $product->name }}">
                                 @else
-                                    <img src="{{ asset('storage/images/products/default.png') }}" alt="{{ $product->name }}">
+                                    <img src="{{ asset('storage/images/products/no_images.png') }}" alt="{{ $product->name }}">
                                 @endif
                             </a>
                         </div>
