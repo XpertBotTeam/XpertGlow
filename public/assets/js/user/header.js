@@ -1,3 +1,19 @@
+
+function openSearch(){
+   document.querySelector('.nav_left').style.display="none";
+   document.querySelector('.nav_mid').style.display="flex";
+   document.querySelector('.nav_right').style.display="none";
+   document.querySelector('.close_search').style.display="block";
+}
+
+function closeSearch(){
+    document.querySelector('.nav_left').style.display="flex";
+    document.querySelector('.nav_mid').style.display="none";
+    document.querySelector('.nav_right').style.display="flex";
+    document.querySelector('.close_search').style.display="none";
+ }
+
+
 function openCategoriesNav() {
     document.getElementById("xpertglow_nav_2").style.width = "250px";
     document.getElementById("categories_container").style.display = "block";

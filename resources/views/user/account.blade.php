@@ -38,19 +38,25 @@
                 <input type="text" name="district" placeholder="District" required>
                 <input type="text" name="locality" placeholder="Locality" required>
                 <input type="number" name="phone" placeholder="Phone" required>
-                <input type="submit" value="Submit">
+                <input type="submit" value="New Address">
             </form>
             <button class="close_address">Close</button>
         </div>
 
         <div class="all_addresses">
             @foreach ($user->addresses as $address)
-            <li>
-                {{$address->name}} {{$address->surname}} - 
-                {{$address->address}} - {{$address->more_info}} -
-                {{$address->district}} / {{$address->locality}} - 
-                {{$address->phone}}
-            </li>
+                @if($address->isDeleted == 0)
+                    <li>
+                        {{$address->name}} {{$address->surname}} - 
+                        {{$address->address}} - {{$address->more_info}} -
+                        {{$address->district}} / {{$address->locality}} - 
+                        {{$address->phone}}
+                        <form action="/delete_address/{{$address->id}}" method="POST">
+                            @csrf
+                            <button type="submit">Delete</button>
+                        </form>
+                    </li>
+                @endif
             @endforeach
         </div>
     </div>

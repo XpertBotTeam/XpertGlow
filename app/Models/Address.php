@@ -17,6 +17,7 @@ class Address extends Model
         'district',
         'locality',
         'phone',
+        'isDeleted',
         'user_id',
     ];
 

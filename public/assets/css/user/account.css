@@ -49,10 +49,33 @@
     display: none;
     flex-direction: column;
     gap: 15px;
+    width: 100%;
+    margin-top: 8px;
 }
 
-.all_addresses{
-    margin-top: 30px;
+
+.all_addresses li{
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 30px;
+    padding: 10px;
+}
+
+.all_addresses form{
+    display: inline;
+}
+
+.all_addresses form button{
+    background-color: black;
+    color: white;
+    height: 30px;
+    border: none;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 6px;
 }
 
 .password_input form ,.address_input form{

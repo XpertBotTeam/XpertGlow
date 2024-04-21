@@ -52,6 +52,7 @@
                 <div class="card bg-dark text-bg-danger">
                     <img class="card-img-top" src="{{ asset('storage/images/subcategories/' . $image->path) }}" alt="Card image">
                     <div class="card-body">
+                        <p><b>Image ID : </b>{{$image->id}}</p>
                         <form class="d-grid gap-2" action="/delete_image/{{$image->id}}" method="POST">
                             @csrf
                             <button type="submit" class="btn btn-danger">Delete</button>

@@ -3,63 +3,172 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Cart;
+use App\Models\CartItem;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+
+    public function list_cart_items(Request $request)
     {
-        //
+        $user = $request->user(); 
+
+        if (!$user) {
+            return response()->json(['error' => 'Unauthenticated'], 401);
+        }
+
+        $cart = Cart::where('user_id', $user->id)->first();
+
+        if (!$cart) {
+            return response()->json(['error' => 'Cart not found'], 404);
+        }
+
+        $cart_items = $cart->cartItems()->with('product')->get();
+
+        return response()->json(['cart_items' => $cart_items], 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function add_to_cart(Request $request, $product_id)
     {
-        //
+        $user = $request->user(); 
+
+        if (!$user) {
+            return response()->json(['error' => 'Unauthenticated'], 401);
+        }
+
+        $product = Product::find($product_id);
+
+        if (!$product) {
+            return response()->json(['error' => 'Product not found'], 404);
+        }
+
+        $quantity = $request->input('quantity', 1);
+
+        if ($quantity < 1) {
+            return response()->json(['error' => 'Invalid quantity'], 400);
+        }
+
+        if ($product->quantity < $quantity) {
+            return response()->json(['error' => 'Not enough quantity available'], 400);
+        }
+
+        $cart = Cart::where('user_id', $user->id)->first();
+
+        if (!$cart) {
+            $cart = new Cart();
+            $cart->user_id = $user->id;
+            $cart->save();
+        }
+
+        $cart_item = CartItem::where('cart_id', $cart->id)
+                            ->where('product_id', $product_id)
+                            ->first();
+        
+        if($cart_item){
+            $cart_item->quantity += $quantity;
+            $cart_item->save();
+        }
+
+        else{
+            $cart_item = new CartItem();
+            $cart_item->cart_id = $cart->id;
+            $cart_item->product_id = $product_id;
+            $cart_item->quantity = $quantity;
+            $cart_item->save();
+        }
+
+        return response()->json(['message' => 'Product added to cart'], 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function update_cart_item_quantity(Request $request, $id)
     {
-        //
+        $user = $request->user(); 
+
+        if (!$user) {
+            return response()->json(['error' => 'Unauthenticated'], 401);
+        }
+    
+        $cart_item = CartItem::find($id);
+    
+        if (!$cart_item) {
+            return response()->json(['error' => 'Cart item not found'], 404);
+        }
+    
+        $cart = $cart_item->cart;
+    
+        if (!$cart || $cart->user_id !== $user->id) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+    
+        $quantity = $request->input('quantity');
+    
+        if (!is_numeric($quantity) || $quantity < 1) {
+            return response()->json(['error' => 'Invalid quantity'], 400);
+        }
+
+        $product = $cart_item->product;
+
+        if ($product->quantity < $quantity) {
+            return response()->json(['error' => 'Not enough quantity available'], 400);
+        }
+    
+        $cart_item->quantity = $quantity;
+        $cart_item->save();
+    
+        return response()->json(['message' => 'Cart item quantity updated'], 200);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+
+    public function remove_from_cart(Request $request, $id)
     {
-        //
+        $user = $request->user(); 
+
+        if (!$user) {
+            return response()->json(['error' => 'Unauthenticated'], 401);
+        }
+
+        $cart_item = CartItem::find($id);
+
+        if (!$cart_item) {
+            return response()->json(['error' => 'Cart item not found'], 404);
+        }
+
+        if ($cart_item->cart->user_id !== $user->id) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        $cart_item->delete();
+
+        return response()->json(['message' => 'Cart item removed'], 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function clear_cart(Request $request)
     {
-        //
+        $user = $request->user(); 
+
+        if (!$user) {
+            return response()->json(['error' => 'Unauthenticated'], 401);
+        }
+
+        $cart = Cart::where('user_id', $user->id)->first();
+
+        if (!$cart) {
+            return response()->json(['error' => 'Cart not found'], 404);
+        }
+
+        if ($cart->user_id !== $user->id) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        if ($cart->cartItems->isEmpty()) {
+            return response()->json(['message' => 'Cart is already empty'], 200);
+        }
+
+        $cart->cartItems()->delete();
+
+        return response()->json(['message' => 'Cart cleared'], 200);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

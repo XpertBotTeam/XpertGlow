@@ -4,146 +4,79 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\ProductRequest;
+use Illuminate\Support\Facades\Validator;
 use App\Models\Product;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $products=Product::all();
-
-        return response()->json([
-            'status'=>true,
-            'message'=>"All Products",
-            'data'=>$products
-        ]);
+        $products = Product::all();
+        return response()->json(['products' => $products], 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(ProductRequest $request)
-    {
-        $product =Product::create($request->all());
-
-        if ($product) {
-        return response()->json([
-            'status'=>true,
-            'message'=>"Product Created Successufly",
-            'data'=>$product
-            
-        ]);
-        }
-        else
-        {
-        return response()->json([
-            'status'=>false,
-            'message'=>"Failed to Create Product"       
-        ]);
-        }
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show($id)
     {
         $product = Product::find($id);
 
-        if($product){
-            return response()->json([
-                'status'=>true,
-                'message'=>"Product Founded",
-                'data'=>$product
-                
-            ]);
+        if (!$product) {
+            return response()->json(['message' => 'Product not found'], 404);
         }
-        else{
-            return response()->json([
-                'status'=>false,
-                'message'=>"Product Not Found"
-            ]);
+
+        return response()->json(['product' => $product], 200);
+    }
+
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string',
+            'code' => 'required|string',
+            'description' => 'nullable|string',
+            'price' => ['required', 'regex:/^\d+(\.\d{1,2})?$/', 'numeric'],
+            'quantity' => 'required|integer|min:0',
+            'sub_category_id' => 'required|exists:sub_categories,id',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 400);
         }
+
+        $product = Product::create($request->all());
+        return response()->json(['product' => $product], 201);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(ProductRequest $request, string $id)
-    {
-            $product = Product::find($id);
-
-            if($product){
-
-                $validatedData = $request->validated();
-            
-                $product->fill($validatedData)->save();
-
-                if ($product->wasChanged()) {
-                    return response()->json([
-                        'status' => true,
-                        'message' => "Product Updated Successfully",
-                        'data' => $product
-                    ]);
-                } else {
-                    return response()->json([
-                        'status' => false,
-                        'message' => "No changes were made to the product"
-                    ]);
-                }
-            } else {
-                return response()->json([
-                    'status' => false,
-                    'message' => "Product Not Found"
-                ]);
-            }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function update(Request $request, $id)
     {
         $product = Product::find($id);
-                
-                if ($product) {
-                    $deleted = $product->delete();
-                    if ($deleted) {
-                        return response()->json([
-                            'status' => true,
-                            'message' => "Product Deleted Successfully",
-                        ]);
-                    } else {
-                        return response()->json([
-                            'status' => false,
-                            'message' => "Failed to delete the Product",
-                        ]);
-                    }
-                } else {
-                    return response()->json([
-                        'status' => false,
-                        'message' => "Product Not Found",
-                    ]);
-                }
+
+        if (!$product) {
+            return response()->json(['message' => 'Product not found'], 404);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string',
+            'code' => 'required|string',
+            'description' => 'nullable|string',
+            'price' => ['required', 'regex:/^\d+(\.\d{1,2})?$/', 'numeric'],
+            'quantity' => 'required|integer|min:0',
+            'sub_category_id' => 'required|exists:sub_categories,id',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 400);
+        }
+
+        $product->update($request->all());
+        return response()->json(['product' => $product], 200);
+    }
+
+    public function destroy($id)
+    {
+        $product = Product::find($id);
+        if (!$product) {
+            return response()->json(['message' => 'Product not found'], 404);
+        }
+        $product->delete();
+        return response()->json(['message' => 'Product deleted successfully'], 200);
     }
 }

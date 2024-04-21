@@ -12,7 +12,7 @@
             <input type="text" class="form-control" name="name" required>
 
             <label for="description" class="form-label mt-3"><b>Product Description:</b></label><br> 
-            <input type="text" class="form-control" name="description" required>
+            <textarea type="text" class="form-control" name="description" required></textarea>
 
             <label for="code" class="form-label mt-3"><b>Product Code:</b></label><br> 
             <input type="text" class="form-control" name="code" required>
@@ -50,7 +50,7 @@
                     @endif
                     <div class="card-body">
                         <h4 class="card-title"><b>Product ID : </b>{{$product->id}}</h4>
-                        <p><b>Name : </b>{{$product->name}}</p>
+                        <p class="text-nowrap text-truncate"><b>Name : </b>{{$product->name}}</p>
                         <p><b>Code : </b>{{$product->code}}</p>
                         <p><b>Quantity : </b>{{$product->quantity}}</p>
                         <form class="d-grid gap-2" action="/delete_product/{{$product->id}}" method="POST">

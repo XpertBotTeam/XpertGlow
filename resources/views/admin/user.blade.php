@@ -9,10 +9,26 @@
                 <div class="card bg-dark text-bg-danger">
                     <div class="card-body">
                         <h4 class="card-title">{{$user->name}}</h4>
-                        <p>User ID : {{$user->id}}</p>
-                        <p>Email : {{$user->email}}</p>
-                        <p>Created at : {{$user->created_at}}</p>
-                        <p>Total Orders : {{count($user->orders)}}</p>
+                        <p><b>User ID : </b>{{$user->id}}</p>
+                        <p><b>Email : </b>{{$user->email}}</p>
+                        <p><b>Created at : </b>{{$user->created_at}}</p>
+                        <p><b>Total Orders : </b>{{count($user->orders)}}</p>
+                        <p>Status : 
+                            @if($user->isBlocked==0)
+                                <b class="text-success">Active</b>
+                            @else
+                                <b class="text-danger">Blocked</b>
+                            @endif
+                        </p>
+                        <form class="card-footer d-grid gap-2" action="/block_user/{{$user->id}}" method="POST">
+                            @csrf
+                            @if($user->isBlocked==0)
+                                <button type="submit" class="btn btn-danger">Block this User</button>
+                            @else
+                                <button type="submit" class="btn btn-success">Unblock this User</button>
+                            @endif
+                        </form> 
+
                         <form class="card-footer d-grid gap-2" action="/delete_user/{{$user->id}}" method="POST">
                             @csrf
                             <button type="submit" class="btn btn-danger">Delete</button>

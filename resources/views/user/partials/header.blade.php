@@ -24,6 +24,11 @@
 
             
             <div class="nav_mid">
+
+                <button class="close_search" onclick="closeSearch()">
+                    <i class="fa-solid fa-arrow-right fa-rotate-180"></i>
+                </button>
+
                 <div class="search_container">
                     <form action="{{ route('searchh') }}" method="GET">
                         <input type="text" id="searchInput" name="query" required placeholder="Search for Products">
@@ -44,10 +49,9 @@
 
             <div class="nav_right">
 
-                <button class="nav_right_search">
+                <button class="nav_right_search" onclick="openSearch()">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
-
                 @auth
 
                     <a href="{{ route('favorite_page') }}">

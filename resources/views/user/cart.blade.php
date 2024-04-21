@@ -63,13 +63,15 @@
                 <select id="address-select" name="address-select" required>
                     <option value="" disabled selected>Select an Address</option>
                     @foreach ($addresses as $address)
-                        <option value="{{ $address->id }}">
-                            {{ $address->name }} 
-                            {{ $address->surname }} / 
-                            {{ $address->district }} -
-                            {{ $address->locality }} -
-                            {{ $address->phone }}
-                        </option>
+                        @if($address->isDeleted == 0)
+                            <option value="{{ $address->id }}">
+                                {{ $address->name }} 
+                                {{ $address->surname }} / 
+                                {{ $address->district }} -
+                                {{ $address->locality }} -
+                                {{ $address->phone }}
+                            </option>
+                        @endif
                     @endforeach
                 </select>
             </div>

@@ -9,6 +9,8 @@ class Carousel extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['path', 'carouselable_id', 'carouselable_type'];
+
     public function carouselable()
     {
         return $this->morphTo();

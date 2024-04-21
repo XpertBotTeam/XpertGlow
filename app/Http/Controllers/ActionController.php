@@ -44,7 +44,13 @@ class ActionController extends Controller
             if ($user->isAdmin) {
                 return redirect()->route('admin.home');
             } else {
-                return redirect()->route('user.home');
+
+                if($user->isBlocked==1){
+                    return back()->withErrors(['message' => 'Invalid credentials']);
+                }
+                else{
+                    return redirect()->route('user.home');
+                }
             }
         } else {
             return back()->withErrors(['message' => 'Invalid credentials']);
@@ -186,6 +192,13 @@ class ActionController extends Controller
         ], 200);
     }
 
+    public function remove_order_item($id)
+    {
+        $order_item = OrderItem::find($id);
+        $order_item->delete();
+        return redirect()->back();
+    }
+
     public function toggle_add_to_cart(Request $request)
     {
         
@@ -220,6 +233,39 @@ class ActionController extends Controller
             'success' => true,
             'message' => 'Product added to cart successfully',
         ]);
+    }
+
+    public function ajax_search(Request $request)
+    {
+        $query = $request->input('query');
+        $products = Product::where('name', 'like', '%' . $query . '%')->get();
+        return response()->json($products);
+    }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+        $products = collect(); 
+        $userFavorites = [];
+
+        if ($query) {
+
+            $products = Product::with('images')
+                ->where('name', 'LIKE', '%' . $query . '%')
+                ->get();
+            if (Auth::check()) {
+                $userId = Auth::id();
+                $userFavorites = Favorite::where('user_id', $userId)
+                    ->pluck('product_id')
+                    ->toArray();
+            }
+        }
+        return view('user.search', [
+            'products' => $products,
+            'userFavorites' => $userFavorites,
+            'query' => $query
+        ]);
+
     }
 
 
@@ -275,6 +321,16 @@ class ActionController extends Controller
             'user_id' => $userId
         ]);
         return redirect()->to('/account');
+    }
+
+    public function delete_address($id)
+    {
+        $address = Address::find($id);
+            if ($address) {
+                $address->isDeleted = true;
+                $address->save();
+            }
+            return redirect()->back();
     }
 
     public function change_password(Request $request)
@@ -387,6 +443,21 @@ class ActionController extends Controller
         return redirect()->to('/admin/user');
     }
 
+    public function block_user($id)
+    {
+        $user = User::find($id);
+
+        if($user->isBlocked==0){
+            $user->isBlocked = 1;
+        }
+        elseif($user->isBlocked==1){
+            $user->isBlocked = 0;
+        }
+
+        $user->save();
+        return redirect()->back();
+    }
+
     public function upload_image(Request $request)
     {
         $request->validate([
@@ -482,6 +553,15 @@ class ActionController extends Controller
                 $image->delete();
             }
             $carousel->delete();
+        }
+        return redirect()->back();
+    }
+
+    public function update_order_status(Request $request, $id){
+        $order = Order::find($id);
+        if ($order) {
+            $order->status = $request->input('status');
+            $order->save();
         }
         return redirect()->back();
     }

@@ -8,8 +8,9 @@
     position: relative;
     width: 100%;
     aspect-ratio: 16/9;
-    margin: 70px auto 0  auto;
+    margin: 75px auto 0  auto;
     overflow: hidden;
+    border-bottom: 1px solid #bbbbbb;
 }
 
 .carousel_slide {
@@ -49,3 +50,12 @@
     right: 14px;
 }
 
+
+@media screen and (max-width: 768px) {
+
+    .prevButton, .nextButton {
+        height: 35px;
+        width: 35px;
+    }
+
+}

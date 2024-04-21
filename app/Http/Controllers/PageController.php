@@ -18,7 +18,17 @@ class PageController extends Controller
 {
     public function UserHomePage()
     {
-        return view('user.home');
+        $userFavorites = [];
+        $products = Product::with('images')->latest()->take(8)->get();
+        if (Auth::check()) {
+            $userId = Auth::id();
+            $userFavorites = Favorite::where('user_id', $userId)
+                ->whereIn('product_id', $products->pluck('id'))
+                ->pluck('product_id')
+                ->toArray();
+        }
+        
+        return view('user.home', compact('products','userFavorites'));
     }
 
     public function AdminHomePage()
@@ -174,8 +184,14 @@ class PageController extends Controller
 
     public function AdminOrders()
     {
-        $orders = Order::with(['user','address'])->get();
+        $orders = Order::with(['user','address','orderItems.product'])->get();
         return view('admin.order',compact('orders'));
+    }
+
+    public function AdminOrder($id)
+    {
+        $order = Order::with(['user','address','orderItems.product'])->find($id);
+        return view('admin.order_edit',compact('order'));
     }
 
     public function AdminCarousels()

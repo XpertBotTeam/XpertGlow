@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('district');
             $table->string('locality');
             $table->string('phone');
+            $table->boolean('isDeleted')->default(false);
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });

@@ -24,6 +24,21 @@ class User extends Authenticatable
         'password',
     ];
 
+    public function isAdmin()
+    {
+        return $this->isAdmin;
+    }
+
+    public function isBlocked()
+    {
+        return $this->isBlocked;
+    }
+
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
+
     public function cart()
     {
         return $this->hasOne(Cart::class);

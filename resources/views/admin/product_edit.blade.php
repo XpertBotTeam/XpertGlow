@@ -12,7 +12,7 @@
             <input type="text" class="form-control" name="name" value="{{$product->name}}">
 
             <label for="description" class="form-label mt-3"><b>Product Description:</b></label><br> 
-            <input type="text" class="form-control" name="description" value="{{$product->description}}">
+            <textarea type="text" class="form-control" name="description" >{{$product->description}}</textarea>
 
             <label for="code" class="form-label mt-3"><b>Product Code:</b></label><br> 
             <input type="text" class="form-control" name="code" value="{{$product->code}}">
@@ -65,6 +65,7 @@
                 <div class="card bg-dark text-bg-danger">
                     <img class="card-img-top" src="{{ asset('storage/images/products/' . $image->path) }}" alt="Card image">
                     <div class="card-body">
+                        <p><b>Image ID : </b>{{$image->id}}</p>
                         <form class="d-grid gap-2" action="/delete_image/{{$image->id}}" method="POST">
                             @csrf
                             <button type="submit" class="btn btn-danger">Delete</button>

@@ -15,6 +15,10 @@ class Kernel extends HttpKernel
      */
 
      protected $routeMiddleware = [
+
+        'api_admin' => \App\Http\Middleware\ApiAdminMiddleware::class,
+        'api_user' => \App\Http\Middleware\ApiUserMiddleware::class,
+        
         'admin' => \App\Http\Middleware\AdminMiddleware::class,
         'user' => \App\Http\Middleware\UserMiddleware::class,
     ];

@@ -18,7 +18,7 @@
                 <div class="no_results_text">Your search "{{ $query }}" didn't match any Results</div>
             </div>
         @else
-            <div class="products_container">
+            <div class="products_container" style="margin-top: 70px">
                 @foreach ($products as $product)
                     @php $product->is_favorite = in_array($product->id, $userFavorites); @endphp
                     <div class="product_item">
