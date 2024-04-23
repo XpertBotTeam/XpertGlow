@@ -44,9 +44,9 @@
 }
 
 .nav_left_logo{
-    padding-left: 15px;
+    padding-left: 17px;
     font-size: 1.4rem;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     font-weight: bold;
     color: black;
     text-decoration: none;
@@ -109,6 +109,7 @@
     border: none;
     border-radius: 0px 50px 50px 0px; 
     width: 20%;
+    font-size: 15px;
 }
 
 .search_container form input[type="submit"]:hover ,.close_search:hover{
@@ -369,6 +370,10 @@
 
     .nav_right_search{
         display: block;
+    }
+
+    .nav_right button ,.nav_left_list button ,.close_btn button{
+        font-size: 25px;
     }
 
 }

@@ -8,13 +8,18 @@
     <title>XpertGlow | LOGIN</title>
 </head>
 <body>
+
     <div class="form_wrapper">
         <div class="form_container">
             <h1>XpertGlow</h1>
             <h2>Login</h2>
-            <form method="POST" action="{{ route('login') }}">
-                @csrf
 
+            @if ($errors->any())
+                <h3>{{ $errors->first() }}</h3>
+            @endif
+
+            <form method="POST" action="/login">
+                @csrf
                 <div class="form_item">
                     <div class="form_item_i">
                         <i class="fa-solid fa-envelope"></i>
@@ -34,7 +39,7 @@
 
                 <input type="submit" value="Login">
                 
-                <a href="{{ route('register') }}">Already have an account? Login here</a>
+                <a href="/register">New Customer?Create your account</a>
             </form>
         </div>
     </div>

@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="{{ asset('assets/css/user/cards.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/user/no_results.css') }}">
 
+    @extends('user.partials.notification')
+
     @if (!empty($query))
         @if ($products->isEmpty())
             <div class="no_results">

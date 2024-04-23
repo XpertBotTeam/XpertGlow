@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="{{ asset('assets/css/user/cards.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/user/no_results.css') }}">
 
+    @extends('user.partials.notification')
+
     @if(empty($userFavorites))
         <div class="no_results">
             <div class="no_results_i"><i class="fa-solid fa-heart-crack"></i></div>

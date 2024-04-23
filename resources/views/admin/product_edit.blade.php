@@ -4,6 +4,27 @@
 
 <div class="container">
 
+    @if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show m-3" role="alert">
+        <strong> {{ session('success') }}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
+
+    @if(session('error'))
+      <div class="alert alert-danger alert-dismissible fade show m-3" role="alert">
+          <strong> {{ session('error') }}</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    @endif
+
+    @if ($errors->any())
+    <div class="alert alert-danger alert-dismissible fade show m-3" role="alert">
+        <strong> {{ $errors->first() }}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
+
     <div class="border border-dark border-3 p-3 m-3">
         <h2 class="text-center">Update Product</h2>
         <form method="POST" action="/update_product/{{$product->id}}">
@@ -46,7 +67,7 @@
         <form action="/upload_image" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="d-grid">
-            <input type="hidden" name="id" value="{{$product->id}}">
+            <input type="hidden" name="imageable_id" value="{{$product->id}}">
             <input type="hidden" name="imageable_type" value="App\Models\Product">
             <label for="image" class="form-label"><b>Choose an image:</b></label>
             <input type="file" name="image" class="form-control" required accept="image/*">

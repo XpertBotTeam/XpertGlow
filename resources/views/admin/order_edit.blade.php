@@ -4,6 +4,27 @@
 
 <div class="container">
 
+      @if(session('success'))
+      <div class="alert alert-success alert-dismissible fade show m-3" role="alert">
+          <strong> {{ session('success') }}</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      @endif
+
+      @if(session('error'))
+      <div class="alert alert-danger alert-dismissible fade show m-3" role="alert">
+          <strong> {{ session('error') }}</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      @endif
+
+      @if ($errors->any())
+      <div class="alert alert-danger alert-dismissible fade show m-3" role="alert">
+          <strong> {{ $errors->first() }}</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      @endif
+
     <table class="table table-hover table-bordered border-dark mt-3">
         <thead>
           <tr>

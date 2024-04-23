@@ -5,6 +5,9 @@
 @section('content')
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <link rel="stylesheet" href="{{ asset('assets/css/user/product.css') }}">
+
+@extends('user.partials.notification')
+
 <div class="product_wrapper">
         <div class="add_to_favorite" data-id="{{ $product->id }}">
             <button class="favorite_button" data-in-favorites="{{ $isFavorited===true ? 'true' : 'false' }}">

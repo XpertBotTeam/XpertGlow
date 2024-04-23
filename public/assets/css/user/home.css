@@ -4,5 +4,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: clamp(30px, 4vw, 45px);
+    font-size: clamp(25px, 4vw, 45px);
+    font-weight: 600;
+    letter-spacing: 2px;
 }

@@ -56,12 +56,14 @@
                         <div class="item_name">{{$orderItem->product->name}}</div>
                         <div class="item_price">$ {{$orderItem->price}}</div>
                         <div class="item_quantity">{{$orderItem->quantity}} Item(s)</div>
+                        @if($order->status === "pending")
                         <div class="item_remove">
                             <form action="/remove_order_item/{{$orderItem->id}}" method="POST">
                                 @csrf
                             <button type="submit">Remove</button>
                             </form> 
                         </div>
+                        @endif
                     </div>
                 </div>
                 @endforeach

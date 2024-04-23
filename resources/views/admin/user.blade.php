@@ -3,6 +3,21 @@
 @section('content')
 
 <div class="container">
+
+    @if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show m-3" role="alert">
+        <strong> {{ session('success') }}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
+
+    @if ($errors->any())
+    <div class="alert alert-danger alert-dismissible fade show m-3" role="alert">
+        <strong> {{ $errors->first() }}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
+
     <div class="row">
         @foreach($users as $user)
             <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 col-xxl-3 p-3">

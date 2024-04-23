@@ -13,6 +13,15 @@ function closeSearch(){
     document.querySelector('.close_search').style.display="none";
  }
 
+ function check_width_for_search() {
+    var width = window.innerWidth;
+    if (width > 768) {
+        closeSearch();
+    }
+  }
+  check_width_for_search();
+  window.addEventListener("resize", check_width_for_search);
+
 
 function openCategoriesNav() {
     document.getElementById("xpertglow_nav_2").style.width = "250px";

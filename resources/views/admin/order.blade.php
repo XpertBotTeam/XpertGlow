@@ -16,6 +16,7 @@
                       @foreach($order->orderItems as $orderItem)
                           @php $itemCount += $orderItem->quantity;@endphp
                       @endforeach
+                        <p><b>Placed On : </b>{{$order->created_at}}</p>
                         <p><b>Total Item(s) : </b>{{$itemCount}}</p>
                         <p><b>Total Price : </b>$ {{$order->total_price}}</p>
                         <p class="text-capitalize"><b>Status : </b>{{$order->status}}</p>

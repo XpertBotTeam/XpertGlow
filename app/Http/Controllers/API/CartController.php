@@ -168,7 +168,7 @@ class CartController extends Controller
 
         $cart->cartItems()->delete();
 
-        return response()->json(['message' => 'Cart cleared'], 200);
+        return response()->json(['message' => 'Cart Cleared'], 200);
     }
 
 }

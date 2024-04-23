@@ -13,44 +13,39 @@
         <div class="form_container">
             <h1>XpertGlow</h1>
             <h2>Register</h2>
-            <form method="POST" action="{{ route('register') }}">
+
+            @if ($errors->any())
+                <h3>{{ $errors->first() }}</h3>
+            @endif
+
+            <form method="POST" action="/register">
                 @csrf
                 <div class="form_item">
                     <div class="form_item_i">
                         <i class="fa-solid fa-user"></i>
                     </div>
-                    <input id="name" type="text" name="name" value="{{ old('name') }}" placeholder="Name" required autocomplete="name">
+                    <input id="name" type="text" name="name" value="{{ old('name') }}" placeholder="Name" required>
                 </div>
 
                 <div class="form_item">
                     <div class="form_item_i">
                         <i class="fa-solid fa-envelope"></i>
                     </div>
-                    <input id="email" type="email" name="email" value="{{ old('email') }}" placeholder="Email" required autocomplete="email">
+                    <input id="email" type="email" name="email" value="{{ old('email') }}" placeholder="Email" required>
                 </div>
                 
                 <div class="form_item">
                     <div class="form_item_i">
                         <i class="fa-solid fa-lock"></i>
                     </div>
-                    <input id="password" type="password" name="password" placeholder="Password" required autocomplete="new-password">
-                    <button class="show_password" type="button" onclick="ShowPassword('password', 'eyeIcon')">
+                    <input id="password" type="password" name="password" placeholder="Password" required>
+                    <button class="show_password" type="button" onclick="ShowPassword()">
                         <i id="eyeIcon" class="fa-solid fa-eye"></i>
                     </button>
                 </div>
 
-                <div class="form_item">
-                    <div class="form_item_i">
-                        <i class="fa-solid fa-lock"></i>
-                    </div>
-                    <input id="confirm_password" type="password" name="password_confirmation" placeholder="Confirm Password" required autocomplete="new-password">
-                    <button class="show_password" type="button" onclick="ShowPassword('confirm_password', 'confirm_eyeIcon')">
-                        <i id="confirm_eyeIcon" class="fa-solid fa-eye"></i>
-                    </button>
-                </div>
-
                 <input type="submit" value="Create Account">
-                <a href="{{ route('login') }}">New Customer?Create your account</a>
+                <a href="/login">Already have an account? Login here</a>
             </form>
         </div>
     </div>

@@ -13,11 +13,18 @@ $(document).ready(function() {
                 quantity: quantity,
             },
             success: function(response) {
-                if (response.success) {
-                    updateCartUI(response.cart);
-                }
+
+                updateCartUI(response.cart);
+                const notification_message = $('.notification_message');
+                const notification = $('.notification');
+                notification_message.text(response.message);
+                notification.css("display","flex");
             },
-            error: function() {
+            error: function(xhr, status, error) {
+                const notification_message = $('.notification_message');
+                const notification = $('.notification');
+                notification_message.text(xhr.responseJSON.error);
+                notification.css("display","flex");
             }
         });
     }
@@ -36,6 +43,10 @@ $(document).ready(function() {
             success: function(response) {
                 if (response.success) {
                     updateCartUI(response.cart);
+                    const notification_message = $('.notification_message');
+                    const notification = $('.notification');
+                    notification_message.text(response.message);
+                    notification.css("display","flex");
                 }
             },
             error: function() {
@@ -66,16 +77,17 @@ $(document).ready(function() {
                     `;
                     $('body').append(emptyCartHtml);
                 }
+                    const notification_message = $('.notification_message');
+                    const notification = $('.notification');
+                    notification_message.text(response.message);
+                    notification.css("display","flex");
             },
             error: function() {
             }
         });
     }
 
-    function place_order(cartElement , addressId) {
-
-        const cartId = cartElement.data('cart-id');
-
+    function place_order(addressId) {
         $.ajax({
             url: '/place_order',
             method: 'POST',
@@ -83,11 +95,25 @@ $(document).ready(function() {
                 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
             },
             data: {
-                cart_id: cartId,
                 address_id: addressId
             },
             success: function(response) {
-                window.location.href = '/cart';
+                
+                if (response.success) {
+                    $('.cart_wrapper').remove();
+                    const emptyCartHtml = `
+                    <div class="no_results">
+                        <div class="no_results_i"><i class="fa-solid fa-ban"></i></div>
+                        <div class="no_results_text">Your Cart is Empty</div>
+                    </div>
+                    `;
+                    $('body').append(emptyCartHtml);
+                    const notification_message = $('.notification_message');
+                    const notification = $('.notification');
+                    notification_message.text(response.message);
+                    notification.css("display","flex");
+                }
+                
             },
             error: function() {
             }
@@ -128,11 +154,10 @@ $(document).ready(function() {
 
     $('.check_place button#place_order').click(function() {
         const button = $(this);
-        const cartElement = button.closest('.check_place');
         const selectedAddress = $('#address-select').val();
 
         if (selectedAddress) {
-            place_order(cartElement,selectedAddress);
+            place_order(selectedAddress);
         }
         
     });

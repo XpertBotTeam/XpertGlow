@@ -128,10 +128,19 @@ class OrderController extends Controller
             return response()->json(['message' => 'Order item not found'], 404);
         }
 
+        $order->total_price -= $order_item->price * $order_item->quantity;
+        $order->save();
+
         $order_item->product->quantity += $order_item->quantity;
         $order_item->product->save();
 
         $order_item->delete();
+
+        if ($order->orderItems()->count() === 0) {
+            $order->delete();
+            return response()->json(['message' => 'Order item removed successfully from order. Cart is now empty.'], 200);
+        }
+
         return response()->json(['message' => 'Order item removed successfully from order'], 200);
     }
 
@@ -151,7 +160,7 @@ class OrderController extends Controller
 
         $status = $request->input('status');
 
-        if (!in_array($status, ['pending', 'processing', 'cancelled'])) {
+        if (!in_array($status, ['pending', 'processing', 'completed', 'cancelled'])) {
             return response()->json(['error' => 'Invalid status'], 400);
         }
 
@@ -173,6 +182,18 @@ class OrderController extends Controller
             return response()->json(['message' => 'Order not found'], 404);
         }
         return response()->json(['order' => $order], 200);
+    }
+
+    public function user_orders(Request $request)
+    {
+        $user = $request->user(); 
+
+        if (!$user) {
+            return response()->json(['error' => 'Unauthenticated'], 401);
+        }
+
+        $orders = $user->orders()->get();
+        return response()->json(['orders' => $orders], 200);
     }
 
 

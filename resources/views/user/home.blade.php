@@ -4,6 +4,8 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <link rel="stylesheet" href="{{ asset('assets/css/user/home.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/css/user/cards.css') }}">
+
+@extends('user.partials.notification')
 @extends('user.partials.carousel')
 
 <div class="new_arrivals_text">New Arrivals</div>

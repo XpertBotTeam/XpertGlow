@@ -6,6 +6,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="{{ asset('assets/css/user/cards.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/user/no_results.css') }}">
+    
+    @extends('user.partials.notification')
 
     @if($subcategory->products->isEmpty())
         <div class="no_results">

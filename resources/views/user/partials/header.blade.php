@@ -16,21 +16,19 @@
                         <i class="fa-solid fa-bars"></i>
                     </button>
                 </div>
-                <a href="{{ route('user.home') }}" class="nav_left_logo">
+                <a href="/" class="nav_left_logo">
                     XpertGlow
                 </a>
-                
             </div>
 
             
             <div class="nav_mid">
-
                 <button class="close_search" onclick="closeSearch()">
                     <i class="fa-solid fa-arrow-right fa-rotate-180"></i>
                 </button>
 
                 <div class="search_container">
-                    <form action="{{ route('searchh') }}" method="GET">
+                    <form action="/search/page" method="GET">
                         <input type="text" id="searchInput" name="query" required placeholder="Search for Products">
                         <input type="submit" value="Search">
                     </form>
@@ -114,7 +112,7 @@
             <a class="user_option">
                 <form method="POST" action="/logout">
                 @csrf
-                        <button><i class="fa-solid fa-right-from-bracket"></i>Logout</button>
+                    <button><i class="fa-solid fa-right-from-bracket"></i>Logout</button>
                 </form>
             </a>
         </div>

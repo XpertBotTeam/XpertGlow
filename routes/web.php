@@ -7,25 +7,22 @@ use App\Http\Controllers\PageController;
 Route::get('/login', [PageController::class, 'LoginPage'])->name('login_page');
 Route::get('/register', [PageController::class, 'RegisterPage'])->name('register_page');
 
-Route::post('/login', [ActionController::class, 'login'])->name('login');
-Route::post('/register',[ActionController::class,'register'])->name('register');
+Route::post('/login', [ActionController::class, 'login']);
+Route::post('/register',[ActionController::class,'register']);
 Route::post('/logout', [ActionController::class, 'logout']);
-
 
 Route::group(['middleware' => 'user'], function () {
     Route::get('/', [PageController::class, 'UserHomePage'])->name('user.home');
     Route::get('/account', [PageController::class, 'AccountPage'])->name('account_page');
     Route::get('/subcategory/{id}', [PageController::class, 'SubCategoryPage'])->name('subcategory');
     Route::get('/product/{id}', [PageController::class, 'ProductPage'])->name('product');
-    Route::get('/search', [PageController::class, 'SearchPage'])->name('search_page');
-    Route::get('/ajax_search', [PageController::class, 'ajax_search'])->name('ajax_search');
-    Route::get('/search', [PageController::class, 'search'])->name('searchh');
     Route::get('/favorite', [PageController::class, 'FavoritePage'])->name('favorite_page');
+    Route::get('/search', [PageController::class, 'SearchPage']);
+    Route::get('/ajax_search', [ActionController::class, 'ajax_search']);
+    Route::get('/search/page', [ActionController::class, 'search']);
     Route::get('/cart', [PageController::class, 'CartPage'])->name('cart_page');
     Route::get('/order', [PageController::class, 'OrderPage'])->name('order_page');
     Route::get('/order/view/{id}', [PageController::class, 'ViewOrderPage']);
-
-    
     Route::post('/toggle_favorite', [ActionController::class, 'toggle_favorite']);
     Route::post('/toggle_add_to_cart', [ActionController::class, 'toggle_add_to_cart']);
     Route::post('/update_cart_item', [ActionController::class, 'update_cart_item']);

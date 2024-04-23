@@ -1,6 +1,6 @@
-function ShowPassword(passwordFieldId, eyeIconId) {
-    var passwordInput = document.getElementById(passwordFieldId);
-    var eyeIcon = document.getElementById(eyeIconId);
+function ShowPassword() {
+    var passwordInput = document.getElementById("password");
+    var eyeIcon = document.getElementById("eyeIcon");
     if (passwordInput.type === "password") {
         passwordInput.type = "text";
         eyeIcon.classList.remove("fa-eye");

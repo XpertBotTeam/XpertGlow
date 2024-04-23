@@ -3,6 +3,9 @@ $(document).ready(function() {
         event.preventDefault();
         const quantity = $('#quantity').val();
         const productId = $(this).data('id');
+
+        console.log(productId);
+        console.log(quantity);
         $.ajax({
             url: '/toggle_add_to_cart', 
             type: 'POST',
@@ -14,10 +17,20 @@ $(document).ready(function() {
                 quantity: quantity,
             },
             success: function(response) {
-                console.log("added");
+
+                const notification_message = $('.notification_message');
+                const notification = $('.notification');
+                notification_message.text(response.message);
+                notification.css("display","flex");
+
             },
             error: function(xhr, status, error) {
-                console.error('Failed to toggle Add to Cart status:', error);
+
+                const notification_message = $('.notification_message');
+                const notification = $('.notification');
+                notification_message.text(xhr.responseJSON.error);
+                notification.css("display","flex");
+
                 if (xhr.status === 401) {
                     window.location.href = '/login';
                 }

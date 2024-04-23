@@ -20,14 +20,20 @@ $(document).ready(function() {
 
                 button.data('in-favorites', response.is_favorite);
                 const icon = button.find('i');
+                const notification_message = $('.notification_message');
+                const notification = $('.notification');
                 if (response.is_favorite) {
                     icon.removeClass('fa-regular').addClass('fa-solid');
+                    notification_message.text("Product added from Favorites");
                 } else {
                     icon.removeClass('fa-solid').addClass('fa-regular');
+                    notification_message.text("Product removed from Favorites");
                 }
+
+                notification.css("display","flex");
             },
             error: function(xhr, status, error) {
-                console.error('Failed to toggle favorite status:', error);
+
                 if (xhr.status === 401) {
                     window.location.href = '/login';
                 }

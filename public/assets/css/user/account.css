@@ -60,7 +60,6 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 30px;
     padding: 10px;
 }
 
@@ -111,4 +110,11 @@
     background-color: black;
     padding-left: 0; 
     color: white;
+}
+
+@media screen and (max-width: 768px) {
+    .account_wrapper{
+        margin: 90px 20px 0 20px;
+    }
+
 }

@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="{{ asset('assets/css/user/cart.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/css/user/no_results.css') }}">
 
+@extends('user.partials.notification')
 
 @if($cart && count($cart->cartItems) > 0)
         <div class="cart_wrapper" data-cart-id="{{ $cart->id }}">

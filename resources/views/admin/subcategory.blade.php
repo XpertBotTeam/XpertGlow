@@ -4,6 +4,27 @@
 
 <div class="container">
 
+    @if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show m-3" role="alert">
+        <strong> {{ session('success') }}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
+
+    @if(session('error'))
+      <div class="alert alert-danger alert-dismissible fade show m-3" role="alert">
+          <strong> {{ session('error') }}</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    @endif
+
+    @if ($errors->any())
+    <div class="alert alert-danger alert-dismissible fade show m-3" role="alert">
+        <strong> {{ $errors->first() }}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
+
     <div class="border border-dark border-3 p-3 m-3">
         <h2 class="text-center">New Subcategory</h2>
         <form method="POST" action="/create_subcategory">

@@ -67,6 +67,13 @@ class UserController extends Controller
         ], 201);
     }
 
+    public function logout(Request $request)
+    {
+        $request->user()->tokens()->delete();
+
+        return response()->json(['message' => 'Logged out successfully']);
+    }
+
     public function change_user_status(Request $request, $id)
     {
         $user = $request->user(); 
@@ -97,7 +104,7 @@ class UserController extends Controller
 
         $request->validate([
             'current_password' => 'required',
-            'new_password' => 'required|min:6',
+            'new_password' => 'required|min:8',
         ]);
 
         if (!Hash::check($request->current_password, $user->password)) {
