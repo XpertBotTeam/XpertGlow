@@ -10,7 +10,7 @@ class SearchController extends Controller
 {
     public function search(Request $request)
     {
-        $query = $request->input('query');
+        $query = $request->input('q');
 
         $products = Product::where('name', 'like', "%$query%")->get();
 

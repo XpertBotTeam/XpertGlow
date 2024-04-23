@@ -38,6 +38,8 @@ class CartController extends Controller
             return response()->json(['error' => 'Unauthenticated'], 401);
         }
 
+        $user_id = $user->id;
+
         $product = Product::find($product_id);
 
         if (!$product) {
@@ -45,6 +47,17 @@ class CartController extends Controller
         }
 
         $quantity = $request->input('quantity', 1);
+
+        $total_cart_quantity = CartItem::where('product_id', $product_id)
+                                   ->whereHas('cart', function ($query) use ($user_id) {
+                                       $query->where('user_id', $user_id);
+                                   })->sum('quantity');
+
+        $available_quantity = $product->quantity - $total_cart_quantity;
+
+        if ($available_quantity < $quantity) {
+            return response()->json(['error' => "Not enough quantity available, only $available_quantity available for you"], 400);
+        }
 
         if ($quantity < 1) {
             return response()->json(['error' => 'Invalid quantity'], 400);
@@ -109,6 +122,12 @@ class CartController extends Controller
         }
 
         $product = $cart_item->product;
+
+        if($cart_item->quantity>$quantity){
+            $cart_item->quantity = $quantity;
+            $cart_item->save();
+            return response()->json(['message' => 'Cart item quantity updated'], 200);
+        }
 
         if ($product->quantity < $quantity) {
             return response()->json(['error' => 'Not enough quantity available'], 400);

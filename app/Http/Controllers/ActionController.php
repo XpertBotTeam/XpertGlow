@@ -341,6 +341,7 @@ class ActionController extends Controller
                                    })->sum('quantity');
 
         $available_quantity = $product->quantity - $total_cart_quantity;
+        
         if ($available_quantity < $quantity) {
             return response()->json(['error' => "Not enough quantity available, only $available_quantity available for you"], 400);
         }

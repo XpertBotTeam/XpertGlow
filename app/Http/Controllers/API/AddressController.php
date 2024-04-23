@@ -40,19 +40,31 @@ class AddressController extends Controller
             'name' => 'required|string',
             'surname' => 'required|string',
             'address' => 'required|string',
-            'more_info' => 'nullable|string',
-            'district' => 'nullable|string',
-            'locality' => 'nullable|string',
-            'phone' => 'required|string',
-            'isDeleted' => 'nullable|boolean',
-            'user_id' => 'required|exists:users,id',
+            'more_info' => 'required|string',
+            'district' => 'required|string',
+            'locality' => 'required|string',
+            'phone' => 'required|string'
         ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 400);
         }
 
-        $address = Address::create($request->all());
+        $user = $request->user(); 
+        if (!$user) {
+            return response()->json(['error' => 'Unauthenticated'], 401);
+        }
+
+        $address = Address::create([
+            'name' => $request->input('name'),
+            'surname' => $request->input('surname'),
+            'address' => $request->input('address'),
+            'more_info' => $request->input('more_info'),
+            'district' => $request->input('district'),
+            'locality' => $request->input('locality'),
+            'phone' => $request->input('phone'),
+            'user_id' => $user->id
+        ]);
 
         return response()->json(['address' => $address], 201);
     }
@@ -65,15 +77,13 @@ class AddressController extends Controller
             return response()->json(['message' => 'Address not found'], 404);
         }
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string',
-            'surname' => 'required|string',
-            'address' => 'required|string',
+            'name' => 'nullable|string',
+            'surname' => 'nullable|string',
+            'address' => 'nullable|string',
             'more_info' => 'nullable|string',
             'district' => 'nullable|string',
             'locality' => 'nullable|string',
-            'phone' => 'required|string',
-            'isDeleted' => 'nullable|boolean',
-            'user_id' => 'required|exists:users,id',
+            'phone' => 'nullable|string'
         ]);
 
         if ($validator->fails()) {

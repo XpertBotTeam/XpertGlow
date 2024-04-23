@@ -54,12 +54,12 @@ class ProductController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string',
-            'code' => 'required|string',
+            'name' => 'nullable|string',
+            'code' => 'nullable|string',
             'description' => 'nullable|string',
-            'price' => ['required', 'regex:/^\d+(\.\d{1,2})?$/', 'numeric'],
-            'quantity' => 'required|integer|min:0',
-            'sub_category_id' => 'required|exists:sub_categories,id',
+            'price' => ['nullable', 'regex:/^\d+(\.\d{1,2})?$/', 'numeric'],
+            'quantity' => 'nullable|integer|min:0',
+            'sub_category_id' => 'nullable|exists:sub_categories,id',
         ]);
 
         if ($validator->fails()) {

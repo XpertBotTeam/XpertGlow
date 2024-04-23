@@ -51,8 +51,8 @@ class SubCategoryController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string',
-            'category_id' => 'required|exists:categories,id',
+            'name' => 'nullable|string',
+            'category_id' => 'nullable|exists:categories,id',
         ]);
 
         if ($validator->fails()) {

@@ -48,28 +48,21 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/admin/order', [PageController::class, 'AdminOrders']);
     Route::get('/admin/order/{id}', [PageController::class, 'AdminOrder']);
     Route::get('/admin/carousel', [PageController::class, 'AdminCarousels']);
-
     Route::post('/delete_user/{id}', [ActionController::class, 'delete_user']);
     Route::post('/block_user/{id}', [ActionController::class, 'block_user']);
-
     Route::post('/create_category', [ActionController::class, 'create_category']);
     Route::post('/update_category/{id}', [ActionController::class, 'update_category']);
     Route::post('/delete_category/{id}', [ActionController::class, 'delete_category']);
-
     Route::post('/create_subcategory', [ActionController::class, 'create_subcategory']);
     Route::post('/update_subcategory/{id}', [ActionController::class, 'update_subcategory']);
     Route::post('/delete_subcategory/{id}', [ActionController::class, 'delete_subcategory']);
-
     Route::post('/create_product', [ActionController::class, 'create_product']);
     Route::post('/update_product/{id}', [ActionController::class, 'update_product']);
     Route::post('/delete_product/{id}', [ActionController::class, 'delete_product']);
-
     Route::post('/create_carousel', [ActionController::class, 'create_carousel']);
     Route::post('/delete_carousel/{id}', [ActionController::class, 'delete_carousel']);
-
     Route::post('/upload_image', [ActionController::class, 'upload_image']);
     Route::post('/delete_image/{id}', [ActionController::class, 'delete_image']);
-
     Route::post('/update_order_status/{id}', [ActionController::class, 'update_order_status']);
 });
 

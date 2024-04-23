@@ -87,8 +87,12 @@ class PageController extends Controller
     public function OrderPage()
     {
         $userId = Auth::id();
-        $orders = Order::where('user_id',$userId)->with('orderItems.product.images')->get();
-        return view('user.order',compact('orders'));
+        $orders = Order::where('user_id', $userId)
+                        ->with('orderItems.product.images')
+                        ->orderBy('created_at', 'desc')
+                        ->get();
+        
+        return view('user.order', compact('orders'));
     }
 
     public function ViewOrderPage($id)
@@ -184,8 +188,12 @@ class PageController extends Controller
 
     public function AdminOrders()
     {
-        $orders = Order::with(['user','address','orderItems.product'])->get();
+        $orders = Order::with(['user', 'address', 'orderItems.product'])
+                ->orderBy('created_at', 'desc')
+                ->get();
+
         return view('admin.order',compact('orders'));
+        
     }
 
     public function AdminOrder($id)

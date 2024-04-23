@@ -11,6 +11,12 @@ use Illuminate\Support\Facades\Storage;
 
 class CarouselController extends Controller
 {
+    public function index()
+    {
+        $carousels = Carousel::all();
+        return response()->json(['carousels' => $carousels], 200);
+    }
+
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [

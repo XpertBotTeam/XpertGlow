@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\Validator;
 
 class ImageController extends Controller
 {
+    public function index()
+    {
+        $images = Image::all();
+        return response()->json(['images' => $images], 200);
+    }
+
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [

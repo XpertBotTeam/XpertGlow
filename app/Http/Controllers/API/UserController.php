@@ -85,9 +85,8 @@ class UserController extends Controller
         if (!$change_user) {
             return response()->json(['message' => 'User not found'], 404);
         }
-        $isBlocked = $request->input('isBlocked');
-
-        $change_user->isBlocked = !$isBlocked;
+        
+        $change_user->isBlocked = !$change_user->isBlocked;
         $change_user->save();
         $message = $change_user->isBlocked ? 'User blocked successfully' : 'User unblocked successfully';
 
@@ -113,7 +112,7 @@ class UserController extends Controller
 
         $user->password = Hash::make($request->new_password);
         $user->save();
-
+        $request->user()->tokens()->delete();
         return response()->json(['message' => 'Password changed successfully'], 200);
     }
 

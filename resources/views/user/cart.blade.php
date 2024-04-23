@@ -20,7 +20,7 @@
             <div class="item_name"></div>
             <div class="item_quantity"></div>
             <div class="item_subtotal"></div>
-            <div class="item_delete"><button id="remove_all">Remove All</button></div>
+            <div class="item_delete"><button id="remove_all"><i class="fa-solid fa-trash"></i></button></div>
         </div>
         @foreach($cart->cartItems as $cartItem)
         <div class="item" data-item-id="{{ $cartItem->id }}">
@@ -48,7 +48,7 @@
                 ${{ number_format($cartItem->product->price * $cartItem->quantity, 2) }}
             </div>
 
-            <div class="item_delete"><button id="remove">Remove</button></div>
+            <div class="item_delete"><button id="remove"><i class="fa-solid fa-delete-left"></i></button></div>
         </div>
         @php
             $total_quantity += $cartItem->quantity;
