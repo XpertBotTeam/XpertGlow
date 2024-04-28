@@ -11,9 +11,16 @@ class UserMiddleware
     public function handle(Request $request, Closure $next)
     {
         if (Auth::check()) {
+
+            if(Auth::user()->isBlocked){
+                Auth::logout();
+                return redirect()->route('user.home');
+            }
+
             if(Auth::user()->isAdmin){
                 return redirect()->route('admin.home');
             }
+            
             else{
                 return $next($request);
             }
