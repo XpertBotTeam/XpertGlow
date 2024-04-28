@@ -52,7 +52,9 @@ class ActionController extends Controller
 
     public function logout()
     {
-        Auth::logout();
+        if (Auth::check()) {
+            Auth::logout();
+        }
         return redirect()->route('user.home');
     }
 

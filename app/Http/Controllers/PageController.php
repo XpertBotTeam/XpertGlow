@@ -38,11 +38,18 @@ class PageController extends Controller
 
     public function LoginPage()
     {
+        if (Auth::check()) {
+            return redirect('/'); 
+        }
         return view('auth.login');
     }
 
     public function RegisterPage()
     {
+       
+        if (Auth::check()) {
+            return redirect('/'); 
+        }
         return view('auth.register');
     }
 

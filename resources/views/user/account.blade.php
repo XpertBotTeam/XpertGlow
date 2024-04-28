@@ -37,7 +37,7 @@
                 <input type="text" name="more_info" placeholder="More Info" required>
                 <input type="text" name="district" placeholder="District" required>
                 <input type="text" name="locality" placeholder="Locality" required>
-                <input type="number" name="phone" placeholder="Phone" required>
+                <input type="text" name="phone" placeholder="Phone" required>
                 <input type="submit" value="New Address">
             </form>
             <button class="close_address">Close</button>
