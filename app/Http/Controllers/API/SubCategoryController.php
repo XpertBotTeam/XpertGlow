@@ -19,8 +19,8 @@ class SubCategoryController extends Controller
 
     public function show($id)
     {
-        $subcategory = SubCategory::find($id);
-
+        $subcategory = SubCategory::with('products.images')->find($id);
+    
         if (!$subcategory) {
             return response()->json(['message' => 'Subcategory not found'], 404);
         }

@@ -25,7 +25,7 @@ class CartController extends Controller
             return response()->json(['error' => 'Cart not found'], 404);
         }
 
-        $cart_items = $cart->cartItems()->with('product')->get();
+        $cart_items = $cart->cartItems()->with('product.images')->get();
 
         return response()->json(['cart_items' => $cart_items], 200);
     }

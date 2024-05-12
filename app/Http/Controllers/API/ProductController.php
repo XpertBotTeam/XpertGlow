@@ -11,14 +11,13 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::all();
+        $products = Product::with('images')->get();
         return response()->json(['products' => $products], 200);
     }
 
     public function show($id)
     {
-        $product = Product::find($id);
-
+        $product = Product::with('images')->find($id);
         if (!$product) {
             return response()->json(['message' => 'Product not found'], 404);
         }

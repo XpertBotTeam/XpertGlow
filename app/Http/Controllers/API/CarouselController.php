@@ -13,7 +13,7 @@ class CarouselController extends Controller
 {
     public function index()
     {
-        $carousels = Carousel::all();
+        $carousels = Carousel::with('image')->get();
         return response()->json(['carousels' => $carousels], 200);
     }
 

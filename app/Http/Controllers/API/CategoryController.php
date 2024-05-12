@@ -12,11 +12,10 @@ class CategoryController extends Controller
     
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::with('subcategories')->get();
         return response()->json(['categories' => $categories], 200);
     }
 
-   
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -40,6 +39,15 @@ class CategoryController extends Controller
             return response()->json(['message' => 'Category not found'], 404);
         }
         return response()->json(['category' => $category], 200);
+    }
+
+    public function subcategories($id){
+        $category = Category::find($id);
+        if (!$category) {
+            return response()->json(['message' => 'Category not found'], 404);
+        }
+        $subcategories = $category->subcategories;
+        return response()->json(['subcategories' => $subcategories], 200);
     }
 
     public function update(Request $request, $id)

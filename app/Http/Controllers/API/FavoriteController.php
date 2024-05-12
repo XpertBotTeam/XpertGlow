@@ -55,7 +55,7 @@ class FavoriteController extends Controller
             return response()->json(['error' => 'Unauthenticated'], 401);
         }
 
-        $favorites = Favorite::where('user_id', $user->id)->with('product')->get();
+        $favorites = Favorite::where('user_id', $user->id)->with('product.images')->get();
 
         return response()->json(['favorites' => $favorites], 200);
     }
