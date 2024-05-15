@@ -39,7 +39,7 @@ class UserController extends Controller
                 ], 200);
             }
 
-            return response()->json(['message' => 'Invalid credentials'], 401);
+            return response()->json(['message' => 'The email address or password is incorrect'], 401);
     }
 
 
@@ -139,7 +139,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::all();
+        $users = User::with('orders')->get();
         return response()->json(['users' => $users], 200);
     }
 

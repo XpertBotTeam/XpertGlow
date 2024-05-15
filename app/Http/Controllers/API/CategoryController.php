@@ -28,13 +28,13 @@ class CategoryController extends Controller
 
         $category = Category::create($request->all());
 
-        return response()->json(['category' => $category], 201);
+        return response()->json(['category' => $category ,'message' => 'Category created Successfully'], 201);
     }
 
 
     public function show($id)
     {
-        $category = Category::find($id);
+        $category = Category::with('images')->find($id);
         if (!$category) {
             return response()->json(['message' => 'Category not found'], 404);
         }
@@ -67,7 +67,7 @@ class CategoryController extends Controller
 
         $category->update($request->all());
 
-        return response()->json(['category' => $category], 200);
+        return response()->json(['category' => $category ,'message' => 'Category updated Successfully'], 200);
     }
 
     

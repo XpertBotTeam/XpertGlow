@@ -62,7 +62,7 @@ class OrderController extends Controller
 
         $cart->cartItems()->delete();
         
-        return response()->json(['order' => $order], 201);
+        return response()->json(['order' => $order , 'message' => 'Order Placed'], 201);
     }
 
     public function cancel_order(Request $request, $id)
@@ -141,7 +141,7 @@ class OrderController extends Controller
             return response()->json(['message' => 'Order item removed successfully from order. Cart is now empty.'], 200);
         }
 
-        return response()->json(['message' => 'Order item removed successfully from order'], 200);
+        return response()->json(['message' => 'Order item removed successfully from Order'], 200);
     }
 
     public function change_order_status(Request $request, $id)
@@ -177,7 +177,7 @@ class OrderController extends Controller
 
     public function show($id)
     {
-        $order = Order::find($id);
+        $order = Order::with('orderItems.product.images','address')->find($id);
         if (!$order) {
             return response()->json(['message' => 'Order not found'], 404);
         }
@@ -192,7 +192,7 @@ class OrderController extends Controller
             return response()->json(['error' => 'Unauthenticated'], 401);
         }
 
-        $orders = $user->orders()->get();
+        $orders = $user->orders()->with('orderItems.product.images')->get();
         return response()->json(['orders' => $orders], 200);
     }
 

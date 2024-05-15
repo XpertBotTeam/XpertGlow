@@ -66,7 +66,7 @@ class AddressController extends Controller
             'user_id' => $user->id
         ]);
 
-        return response()->json(['address' => $address], 201);
+        return response()->json(['address' => $address , 'message' => 'Address Created Successfully'], 201);
     }
 
     public function update(Request $request, $id)
@@ -114,6 +114,6 @@ class AddressController extends Controller
         }
 
         $address->update(['isDeleted' => true]);
-        return response()->json(['message' => 'Address deactivated successfully'], 200);
+        return response()->json(['message' => 'Address deleted successfully'], 200);
     }
 }

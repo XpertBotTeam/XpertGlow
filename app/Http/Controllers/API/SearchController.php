@@ -12,7 +12,7 @@ class SearchController extends Controller
     {
         $query = $request->input('q');
 
-        $products = Product::where('name', 'like', "%$query%")->get();
+        $products = Product::with('images')->where('name', 'like', "%$query%")->get();
 
         return response()->json(['products' => $products], 200);
     }

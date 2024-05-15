@@ -36,7 +36,7 @@ function closeCategoriesNav() {
 }
 
 function openUserNav() {
-    document.getElementById("xpertglow_nav_3").style.width = "200px";
+    document.getElementById("xpertglow_nav_3").style.width = "250px";
     document.getElementById("user_options_container").style.display = "flex";
     document.getElementById("categories_container").style.display = "none";
     document.getElementById("xpertglow_nav_2").style.width = "0";

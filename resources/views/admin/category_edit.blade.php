@@ -55,7 +55,7 @@
         <h3 class="text-center pt-3">All Images</h3>
 
         @if($category->images->isEmpty())
-            <h3 class="text-center pt-3">No Images for this Product</h3>
+            <h3 class="text-center pt-3">No Images for this Category</h3>
         @else
         <div class="row">
             @foreach ($category->images as $image)
