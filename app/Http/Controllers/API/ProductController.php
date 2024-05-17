@@ -41,13 +41,12 @@ class ProductController extends Controller
         }
 
         $product = Product::create($request->all());
-        return response()->json(['product' => $product], 201);
+        return response()->json(['product' => $product ,'message' => 'Product Created Successfully'], 201);
     }
 
     public function update(Request $request, $id)
     {
-        $product = Product::find($id);
-
+        $product = Product::with('images')->find($id);
         if (!$product) {
             return response()->json(['message' => 'Product not found'], 404);
         }
@@ -66,7 +65,7 @@ class ProductController extends Controller
         }
 
         $product->update($request->all());
-        return response()->json(['product' => $product], 200);
+        return response()->json(['product' => $product , 'message' => 'Product Updated Successfully'], 200);
     }
 
     public function destroy($id)

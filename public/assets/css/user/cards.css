@@ -54,6 +54,7 @@
     border: none;
     width: 100%;
     height: 100%;
+    background-color: white;
   }
 
   .add_to_favorite:hover{
@@ -142,9 +143,13 @@
     }
 
     .add_to_favorite{
-      width: 3.5em;
-      height: 3.5em; 
+      width: 3em;
+      height: 3em; 
       display: flex;
+    }
+
+    .add_to_favorite i{
+      font-size: 20px; 
     }
 
   }

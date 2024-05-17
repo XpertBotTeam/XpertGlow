@@ -19,7 +19,7 @@ class SubCategoryController extends Controller
 
     public function show($id)
     {
-        $subcategory = SubCategory::with('products.images')->find($id);
+        $subcategory = SubCategory::with('images','products.images')->find($id);
     
         if (!$subcategory) {
             return response()->json(['message' => 'Subcategory not found'], 404);
@@ -39,7 +39,7 @@ class SubCategoryController extends Controller
         }
 
         $subcategory = SubCategory::create($request->all());
-        return response()->json(['subcategory' => $subcategory], 201);
+        return response()->json(['subcategory' => $subcategory , 'message' => 'Subcategory Created Successfully'], 201);
     }
 
     public function update(Request $request, $id)
@@ -47,7 +47,7 @@ class SubCategoryController extends Controller
         $subcategory = SubCategory::find($id);
 
         if (!$subcategory) {
-            return response()->json(['message' => 'Subcategory not found'], 404);
+            return response()->json(['message' => 'Subcategory not found' ], 404);
         }
 
         $validator = Validator::make($request->all(), [
@@ -60,7 +60,7 @@ class SubCategoryController extends Controller
         }
 
         $subcategory->update($request->all());
-        return response()->json(['subcategory' => $subcategory], 200);
+        return response()->json(['subcategory' => $subcategory , 'message' => 'Subcategory Updated Successfully'], 200);
     }
 
     public function destroy($id)
