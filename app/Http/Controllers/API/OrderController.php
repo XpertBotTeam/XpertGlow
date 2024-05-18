@@ -171,13 +171,13 @@ class OrderController extends Controller
 
     public function index()
     {
-        $orders = Order::all();
+        $orders = Order::with('user','orderItems')->get();
         return response()->json(['orders' => $orders], 200);
     }
 
     public function show($id)
     {
-        $order = Order::with('orderItems.product.images','address')->find($id);
+        $order = Order::with('user','orderItems.product.images','address')->find($id);
         if (!$order) {
             return response()->json(['message' => 'Order not found'], 404);
         }

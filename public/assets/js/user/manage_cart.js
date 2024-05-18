@@ -115,7 +115,11 @@ $(document).ready(function() {
                 }
                 
             },
-            error: function() {
+            error: function(xhr, status, error) {
+                const notification_message = $('.notification_message');
+                const notification = $('.notification');
+                notification_message.text("Select a Address");
+                notification.css("display", "flex");
             }
         });
 
@@ -155,11 +159,7 @@ $(document).ready(function() {
     $('.check_place button#place_order').click(function() {
         const button = $(this);
         const selectedAddress = $('#address-select').val();
-
-        if (selectedAddress) {
-            place_order(selectedAddress);
-        }
-        
+        place_order(selectedAddress);
     });
 
     function updateCartUI(cart) {
